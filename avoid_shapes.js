@@ -17,7 +17,7 @@ canvas.onmousemove = function(event){
 let rects = [];
 
 function Rect(){
-    this.size = Math.floor(Math.random()*size/2) + size;
+    this.size = Math.floor(Math.random()*size/2) + Math.floor(size);
     this.x = this.size + Math.random() * (canvas.width - this.size*2);
     this.y = this.size + Math.random() * (canvas.height - this.size*2);
     this.dx = ((Math.random()>=0.5)?1:-1) * ( 1 +Math.random()*3);
@@ -40,11 +40,11 @@ function Rect(){
     }
     this.update = function(){
         this.x += this.dx;
-        if(this.x >= canvas.width - this.size || this.x <= this.size)
+        if(this.x >= canvas.width - this.size*0.7 || this.x <= this.size*0.7)
             this.dx *= -1;
 
         this.y += this.dy;
-        if(this.y >= canvas.height - this.size || this.y <= this.size)
+        if(this.y >= canvas.height - this.size*0.7 || this.y <= this.size*0.7)
             this.dy *= -1;
 
         this.angle += this.spin;
@@ -57,6 +57,7 @@ function Rect(){
             this.strokeStyle = 'hsla('+this.color+',100%,80%,'+this.opacity+'%)';
             setTimeout(this.reduceSize,10);
         }
+        if(this.current_size==this.size) console.log(this.current_size, this.size);
     }
 }
 
