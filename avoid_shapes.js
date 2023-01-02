@@ -2,9 +2,18 @@ const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
 let em = canvas.width*canvas.height;
 let size = em / 30000;
 console.log(size);
+
+let mouse_x = 0;
+let mouse_y = 0;
+canvas.onmousemove = function(event){
+    mouse_x = event.clientX - ctx.canvas.offsetLeft;
+    mouse_y = event.clientY - ctx.canvas.offsetTop;
+}
+
 let rects = [];
 
 function Rect(){
@@ -47,21 +56,14 @@ function Rect(){
             this.opacity += 2.5;
             this.strokeStyle = 'hsla('+this.color+',100%,80%,'+this.opacity+'%)';
             setTimeout(this.reduceSize,10);
-            console.log(111);
         }
     }
 }
 
-function drawScore(){
-    ctx.font = "1em";
-    ctx.fillStyle = 'white';
-    ctx.fillText = rects.length;
-}
-
 function Animate(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
+    drawScore();
     for(let i=0; i<rects.length; i++){
-        drawScore();
         rects[i].update();
         rects[i].reduceSize();
         rects[i].draw();
@@ -69,7 +71,17 @@ function Animate(){
     requestAnimationFrame(Animate);
 }
 Animate();
-
+function drawScore(){
+    ctx.save();
+    ctx.font = (em/3000)+'px Arial';
+    ctx.fillStyle = 'rgba(255,255,255,0.1)';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    this.x = canvas.width/2 + (canvas.width/2 - mouse_x) * 0.05;
+    this.y = canvas.height/2 + (canvas.height/2 - mouse_y) * 0.05;
+    ctx.fillText(rects.length-1, this.x, this.y);
+    ctx.restore();
+}
 
 const _spawningScale = 30;
 function addRect(){
