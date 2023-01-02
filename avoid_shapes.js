@@ -73,6 +73,13 @@ function Rect(){
 }
 
 let on_game = false;
+canvas.onclick = function(event){
+    if(!on_game){
+        on_game = true;
+        addRect();
+    }
+}
+
 function Animate(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     drawScore();
@@ -94,13 +101,16 @@ function Animate(){
 Animate();
 function drawScore(){
     ctx.save();
-    ctx.font = (em/3000)+'px Arial';
+    let size = (on_game) ? em/3000 : em/9000;
+    let text = (on_game) ? rects.length-1 : "Click To Start";
+    ctx.font = size+'px Arial';
     ctx.fillStyle = 'rgba(255,255,255,0.1)';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     this.x = canvas.width/2 + (canvas.width/2 - mouse_x) * 0.05;
     this.y = canvas.height/2 + (canvas.height/2 - mouse_y) * 0.05;
-    ctx.fillText(rects.length-1, this.x, this.y);
+
+    ctx.fillText(text, this.x, this.y);
     ctx.restore();
 }
 
@@ -110,4 +120,3 @@ function addRect(){
     rects.push(new Rect());
     setTimeout(addRect,1000);
 }
-addRect();
