@@ -55,19 +55,39 @@ function Rect(){
             this.current_size -= this.size/2;
             this.opacity += 2.5;
             this.strokeStyle = 'hsla('+this.color+',100%,80%,'+this.opacity+'%)';
-            setTimeout(this.reduceSize,10);
         }
-        if(this.current_size==this.size) console.log(this.current_size, this.size);
+    }
+    this.check_crash = function(){
+        if(this.current_size > this.size) return;
+        let dist = Math.sqrt(Math.pow(this.x - mouse_x, 2) + Math.pow(this.y - mouse_y, 2));
+        if( dist <= (this.size*0.7) ){
+            on_game=false;
+        }
+    }
+    this.destroy = function(){
+        this.current_size += this.size/2;
+        this.opacity -= 2.5;
+        this.strokeStyle = 'hsla('+this.color+',100%,80%,'+this.opacity+'%)';
+        if(this.opacity==0) rects=[];
     }
 }
 
+let on_game = false;
 function Animate(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     drawScore();
-    for(let i=0; i<rects.length; i++){
-        rects[i].update();
-        rects[i].reduceSize();
-        rects[i].draw();
+    if(on_game){
+        for(let i=0; i<rects.length; i++){
+            rects[i].update();
+            rects[i].reduceSize();
+            rects[i].draw();
+            rects[i].check_crash();
+        }
+    }
+    else{
+        for(let i=0; i<rects.length; i++){
+            rects[i].destroy();
+        }
     }
     requestAnimationFrame(Animate);
 }
@@ -86,6 +106,7 @@ function drawScore(){
 
 const _spawningScale = 30;
 function addRect(){
+    if(!on_game) return;
     rects.push(new Rect());
     setTimeout(addRect,1000);
 }
