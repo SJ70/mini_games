@@ -19,8 +19,11 @@ function Player(){
     this.x = canvas.width/2;
     this.y = canvas.height/2;
     this.speed = 0.2;
-    this.r = 2010;
-    this.opacity = 100;
+
+    this.MaxSize = 2010;
+    this.MinSize = 10;
+    this.SizeTolerance = 100;
+    this.r = this.MaxSize;
 
     this.getX = function(){
         return this.x;
@@ -34,10 +37,10 @@ function Player(){
     }
     this.animate = function(){
         if(on_game){
-            if(this.r>10) this.r -= 100;
+            if(this.r>this.MinSize) this.r -= this.SizeTolerance;
         }
         else{
-            if(this.r<2010) this.r += 100;
+            if(this.r<this.MaxSize) this.r += this.SizeTolerance;
         }
     }
     this.move = function(){
@@ -69,6 +72,7 @@ function Player(){
     }
 }
 
+const _spawningScale = 30;
 let rects = [];
 function Rect(){
     this.size = Math.floor(Math.random()*size/2) + Math.floor(size);
@@ -124,6 +128,12 @@ function Rect(){
         this.strokeStyle = 'hsla('+this.color+',100%,80%,'+this.opacity+'%)';
     }
 }
+function addRect(){
+    if(!on_game) return;
+    rects.push(new Rect());
+    score.check();
+    setTimeout(addRect,1000);
+}
 
 let on_game = false;
 canvas.onclick = function(event){
@@ -166,14 +176,6 @@ function draw_ClickToStart(){
     this.y = canvas.height/5*3 + (canvas.height/2 - player.getY()) * 0.1;
     ctx.fillText("Click to Start", this.x, this.y);
     ctx.restore();
-}
-
-const _spawningScale = 30;
-function addRect(){
-    if(!on_game) return;
-    rects.push(new Rect());
-    score.check();
-    setTimeout(addRect,1000);
 }
 
 function Animate(){
