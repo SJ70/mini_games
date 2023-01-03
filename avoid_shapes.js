@@ -80,7 +80,9 @@ canvas.onclick = function(event){
 
 function Animate(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    drawScore();
+
+    draw_Score();
+
     if(on_game){
         for(let i=0; i<rects.length; i++){
             rects[i].moving();
@@ -91,6 +93,7 @@ function Animate(){
         }
     }
     else{
+        draw_ClickToStart();
         for(let i=0; i<rects.length; i++){
             rects[i].moving();
             rects[i].spinning();
@@ -103,18 +106,32 @@ function Animate(){
 }
 Animate();
 
-function drawScore(){
-    ctx.save();
-    let size = (on_game) ? em/3000 : em/9000;
-    let text = (on_game) ? rects.length-1 : "Click To Start";
-    ctx.font = size+'px Arial';
-    ctx.fillStyle = 'rgba(255,255,255,0.1)';
+var score = "";
+function draw_Score(){
+    if(on_game && rects.length>1) score = rects.length-1;
+    ctx.font = em/3000+'px Arial';
+    ctx.fillStyle = on_game ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.75)';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
+
     this.x = canvas.width/2 + (canvas.width/2 - mouse_x) * 0.05;
     this.y = canvas.height/2 + (canvas.height/2 - mouse_y) * 0.05;
+   
+    ctx.save();
+    ctx.fillText(score, this.x, this.y);
+    ctx.restore();
+}
+function draw_ClickToStart(){
+    console.log(1);
+    ctx.save();
+    ctx.font = em/9000+'px Arial';
+    ctx.fillStyle = 'rgba(255,255,255,0.1)';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
 
-    ctx.fillText(text, this.x, this.y);
+    this.x = canvas.width/2 + (canvas.width/2 - mouse_x) * 0.1;
+    this.y = canvas.height/5*3 + (canvas.height/2 - mouse_y) * 0.1;
+    ctx.fillText("Click to Start", this.x, this.y);
     ctx.restore();
 }
 
