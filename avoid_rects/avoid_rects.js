@@ -194,7 +194,6 @@ function addRect(){
         rects.push(new Rect());
         score.check();
     }
-    setTimeout(addRect,1000);
 }
 
 let score = new Score();
@@ -231,6 +230,7 @@ function draw_ClickToStart(){
     ctx.restore();
 }
 
+let _spawnCounter = 0;
 function Animate(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
@@ -252,7 +252,12 @@ function Animate(){
         rects[i].draw();
         rects[i].check_crash();
     }
+    console.log(_spawnCounter)
+    _spawnCounter++;
+    if(_spawnCounter==60){
+        _spawnCounter=0;
+        addRect();
+    }
     requestAnimationFrame(Animate);
 }
 Animate();
-addRect();
