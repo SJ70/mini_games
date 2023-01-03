@@ -7,13 +7,12 @@ let em = canvas.width*canvas.height;
 let size = em / 30000;
 console.log(size);
 
-let player = new Player();
 canvas.onmousemove = function(event){
     const x = event.clientX - ctx.canvas.offsetLeft;
     const y = event.clientY - ctx.canvas.offsetTop;
     player.setPos(x,y);
 }
-
+let player = new Player();
 function Player(){
     this.x_dest = 0;
     this.y_dest = 0;
@@ -135,39 +134,6 @@ canvas.onclick = function(event){
 }
 
 let score = new Score();
-
-function Animate(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    player.animate();
-    player.move();
-    player.draw();
-    draw_ClickToStart();
-    score.draw();
-
-    if(on_game){
-        for(let i=0; i<rects.length; i++){
-            rects[i].moving();
-            rects[i].spinning();
-            rects[i].spawning();
-            rects[i].draw();
-            player.drawClone();
-            rects[i].check_crash();
-        }
-    }
-    else{
-        for(let i=0; i<rects.length; i++){
-            rects[i].moving();
-            rects[i].spinning();
-            rects[i].despawning();
-            rects[i].draw();
-            if(rects[0].opacity==0) rects=[];
-        }
-    }
-    requestAnimationFrame(Animate);
-}
-Animate();
-
 function Score(){
     this.score = 0;
     this.check = function(){
@@ -209,3 +175,35 @@ function addRect(){
     score.check();
     setTimeout(addRect,1000);
 }
+
+function Animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    player.animate();
+    player.move();
+    player.draw();
+    draw_ClickToStart();
+    score.draw();
+
+    if(on_game){
+        for(let i=0; i<rects.length; i++){
+            rects[i].moving();
+            rects[i].spinning();
+            rects[i].spawning();
+            rects[i].draw();
+            player.drawClone();
+            rects[i].check_crash();
+        }
+    }
+    else{
+        for(let i=0; i<rects.length; i++){
+            rects[i].moving();
+            rects[i].spinning();
+            rects[i].despawning();
+            rects[i].draw();
+            if(rects[0].opacity==0) rects=[];
+        }
+    }
+    requestAnimationFrame(Animate);
+}
+Animate();
