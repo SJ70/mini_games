@@ -52,7 +52,7 @@ function Rect(){
     this.spawning = function(){
         if(this.current_size > this.size){
             this.current_size -= this.size/2;
-            this.opacity += 2.5;
+            if(this.opacity<100) this.opacity += 2.5;
             this.strokeStyle = 'hsla('+this.color+',100%,80%,'+this.opacity+'%)';
         }
     }
@@ -64,7 +64,7 @@ function Rect(){
         }
     }
     this.despawning = function(){
-        this.current_size += this.size/2;
+        this.current_size *= 1.2;
         this.opacity -= 2.5;
         this.strokeStyle = 'hsla('+this.color+',100%,80%,'+this.opacity+'%)';
     }
@@ -92,6 +92,8 @@ function Animate(){
     }
     else{
         for(let i=0; i<rects.length; i++){
+            rects[i].moving();
+            rects[i].spinning();
             rects[i].despawning();
             rects[i].draw();
             if(rects[0].opacity==0) rects=[];
