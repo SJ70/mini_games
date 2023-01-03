@@ -1,28 +1,57 @@
 const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-canvas.diag = Math.sqrt(canvas.width*canvas.width + canvas.height*canvas.height);
-console.log(canvas.diag);
-console.log(canvas.diag/5000);
+
+let player = new Player();
+let rects = [];
+let on_game = false;
+canvas.onclick = function(event){
+    if(!on_game){
+        on_game = true;
+        player.resize_until_start();
+    }
+}
+function gameover(){
+    on_game = false;
+    rects = [];
+}
+init();
+function init(){
+    gameover();
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.diag = Math.sqrt(canvas.width*canvas.width + canvas.height*canvas.height);
+    player.init();
+}
+window.onresize = function(){
+    init();
+}
+window.onload = function(){
+    init();
+}
 
 canvas.onmousemove = function(event){
     const x = event.clientX - ctx.canvas.offsetLeft;
     const y = event.clientY - ctx.canvas.offsetTop;
     player.setPos(x,y);
 }
-let player = new Player();
 function Player(){
     this.x_dest = 0;
     this.y_dest = 0;
     this.x = canvas.width/2;
     this.y = canvas.height/2;
-    this.speed = canvas.diag/5000;
-
-    this.MinSize = Math.round(canvas.diag/150);
-    this.MaxSize = this.MinSize*201;
-    this.SizeTolerance = this.MinSize*10;
-    this.size = this.MaxSize;
+    this.size = Math.max(canvas.width,canvas.height)*2;
+    
+    console.log(this.size)
+    this.init = function(){
+        this.speed = canvas.diag/5000;
+        this.MinSize = Math.round(canvas.diag/150);
+        this.MaxSize = this.MinSize*201;
+        this.SizeTolerance = this.MinSize*10;
+    }
+    this.resize_until_start = function(){
+        this.size = this.MaxSize;
+        console.log(this.size)
+    }
 
     this.getX = function(){
         return this.x;
@@ -65,7 +94,6 @@ function Player(){
 }
 
 const _spawningScale = 30;
-let rects = [];
 function Rect(){
     this.size = Math.floor(Math.random()*(canvas.diag/40)) + Math.floor((canvas.diag/40));
     this.x = this.size + Math.random() * (canvas.width - this.size*2);
@@ -129,17 +157,6 @@ function RectEdge(){
     this.x = 0;
     this.y = 0;
     this.color = Math.random()*360;
-}
-
-let on_game = false;
-canvas.onclick = function(event){
-    if(!on_game){
-        on_game = true;
-    }
-}
-function gameover(){
-    on_game = false;
-    rects = [];
 }
 
 let score = new Score();
