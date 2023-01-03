@@ -2,10 +2,9 @@ const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-
-let em = canvas.width*canvas.height;
-let size = em / 30000;
-console.log(size);
+canvas.diag = Math.sqrt(canvas.width*canvas.width + canvas.height*canvas.height);
+console.log(canvas.diag);
+console.log(canvas.diag/5000);
 
 canvas.onmousemove = function(event){
     const x = event.clientX - ctx.canvas.offsetLeft;
@@ -18,12 +17,12 @@ function Player(){
     this.y_dest = 0;
     this.x = canvas.width/2;
     this.y = canvas.height/2;
-    this.speed = 0.2;
+    this.speed = canvas.diag/5000;
 
-    this.MaxSize = 2010;
-    this.MinSize = 10;
-    this.SizeTolerance = 100;
-    this.r = this.MaxSize;
+    this.MinSize = Math.round(canvas.diag/150);
+    this.MaxSize = this.MinSize*201;
+    this.SizeTolerance = this.MinSize*10;
+    this.size = this.MaxSize;
 
     this.getX = function(){
         return this.x;
@@ -37,10 +36,10 @@ function Player(){
     }
     this.animate = function(){
         if(on_game){
-            if(this.r>this.MinSize) this.r -= this.SizeTolerance;
+            if(this.size>this.MinSize) this.size -= this.SizeTolerance;
         }
         else{
-            if(this.r<this.MaxSize) this.r += this.SizeTolerance;
+            if(this.size<this.MaxSize) this.size += this.SizeTolerance;
         }
     }
     this.move = function(){
@@ -60,7 +59,7 @@ function Player(){
     this.draw = function(){
         ctx.fillStyle = 'rgb(255,255,255)';
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
         ctx.fill();
     }
 }
@@ -68,7 +67,7 @@ function Player(){
 const _spawningScale = 30;
 let rects = [];
 function Rect(){
-    this.size = Math.floor(Math.random()*size/2) + Math.floor(size);
+    this.size = Math.floor(Math.random()*(canvas.diag/40)) + Math.floor((canvas.diag/40));
     this.x = this.size + Math.random() * (canvas.width - this.size*2);
     this.y = this.size + Math.random() * (canvas.height - this.size*2);
     this.dx = ((Math.random()>=0.5)?1:-1) * ( 1 +Math.random()*3);
@@ -124,6 +123,14 @@ function addRect(){
     setTimeout(addRect,1000);
 }
 
+let rectEdge = new RectEdge();
+function RectEdge(){
+    this.size = canvas.diag/10000;
+    this.x = 0;
+    this.y = 0;
+    this.color = Math.random()*360;
+}
+
 let on_game = false;
 canvas.onclick = function(event){
     if(!on_game){
@@ -142,7 +149,7 @@ function Score(){
         this.score=rects.length-1;
     }
     this.draw = function(){
-        ctx.font = em/3000+'px Arial';
+        ctx.font = canvas.diag/4+'px Arial';
         ctx.fillStyle = 'rgba(135,135,135,0.2)';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -157,9 +164,8 @@ function Score(){
 }
 
 function draw_ClickToStart(){
-    // console.log(1);
     ctx.save();
-    ctx.font = em/9000+'px Arial';
+    ctx.font = canvas.diag/12+'px Arial';
     ctx.fillStyle = 'rgba(15,15,15,0.1)';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
