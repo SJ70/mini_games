@@ -6,7 +6,7 @@ canvas.diag = Math.sqrt(canvas.width*canvas.width + canvas.height*canvas.height)
 
 let player = new Player();
 let rects = [];
-let rectEdge = new RectEdge();
+let rectEdge = new Rect();
 
 let on_game = false;
 canvas.onclick = function(event){
@@ -26,7 +26,7 @@ function init(){
     canvas.height = window.innerHeight;
     canvas.diag = Math.sqrt(canvas.width*canvas.width + canvas.height*canvas.height);
     player.init();
-    rectEdge.init();
+    rectEdge.edge_init();
 }
 window.onresize = function(){
     init();
@@ -97,7 +97,6 @@ function Player(){
     }
 }
 
-const _spawningScale = 30;
 function Rect(){
     this.size = Math.floor(Math.random()*(canvas.diag/40)) + Math.floor((canvas.diag/40));
     this.x = this.size + Math.random() * (canvas.width - this.size*2);
@@ -109,7 +108,7 @@ function Rect(){
     this.opacity = 0;
     this.color = Math.random()*360;
     
-    this.current_size = this.size * _spawningScale;
+    this.current_size = this.size * 30;
     this.spawning = 0;
 
     this.draw = function(){
@@ -146,28 +145,18 @@ function Rect(){
             gameover();
         }
     }
-}
-function addRect(){
-    if(on_game){
-        rects.push(new Rect());
-        score.check();
-    }
-    setTimeout(addRect,1000);
-}
-
-function RectEdge(){
-    this.speed = Math.floor((canvas.diag/100));
-    this.angle = 0;
-    this.spin = -0.15;
-
-    this.init = function(){
+    this.edge_init = function(){
+        this.speed = Math.floor((canvas.diag/100));
+        this.angle = 0;
+        this.spin = -0.15;
         this.size = canvas.diag/40;
+        this.current_size = this.size;
         this.x = 0;
         this.y = 0;
         this.dx = this.speed;
         this.dy = 0;
     }
-    this.draw = function(){
+    this.edge_draw = function(){
         ctx.save();
         ctx.strokeStyle = 'white';
         ctx.translate(this.x, this.y);
@@ -175,7 +164,7 @@ function RectEdge(){
         ctx.strokeRect(0 - this.size/2, 0 - this.size/2, this.size, this.size);
         ctx.restore();
     }
-    this.moving = function(){
+    this.edge_moving = function(){
         if(this.x<0){
             this.x=0;
             this.dx=0;
@@ -199,15 +188,13 @@ function RectEdge(){
         this.x += this.dx;
         this.y += this.dy;
     }
-    this.spinning = function(){
-        this.angle += this.spin;  
+}
+function addRect(){
+    if(on_game){
+        rects.push(new Rect());
+        score.check();
     }
-    this.check_crash = function(){
-        let dist = Math.sqrt(Math.pow(this.x - player.getX(), 2) + Math.pow(this.y - player.getY(), 2));
-        if( dist <= (this.size*0.7) ){
-            gameover();
-        }
-    }
+    setTimeout(addRect,1000);
 }
 
 let score = new Score();
@@ -247,9 +234,9 @@ function draw_ClickToStart(){
 function Animate(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    rectEdge.moving();
+    rectEdge.edge_moving();
     rectEdge.spinning();
-    rectEdge.draw();
+    rectEdge.edge_draw();
     rectEdge.check_crash();
 
     player.animate();
