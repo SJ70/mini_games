@@ -63,13 +63,6 @@ function Player(){
         ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
         ctx.fill();
     }
-    //숫자가 캐릭터 앞에 그려지는 것을 대비
-    this.drawClone = function(){
-        ctx.fillStyle = 'rgb(255,255,255)';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, 10, 0, Math.PI*2);
-        ctx.fill();
-    }
 }
 
 const _spawningScale = 30;
@@ -119,19 +112,15 @@ function Rect(){
         if(this.current_size > this.size) return;
         let dist = Math.sqrt(Math.pow(this.x - player.getX(), 2) + Math.pow(this.y - player.getY(), 2));
         if( dist <= (this.size*0.7) ){
-            on_game=false;
+            gameover();
         }
-    }
-    this.despawning = function(){
-        this.current_size *= 1.2;
-        this.opacity -= 2.5;
-        this.strokeStyle = 'hsla('+this.color+',100%,80%,'+this.opacity+'%)';
     }
 }
 function addRect(){
-    if(!on_game) return;
-    rects.push(new Rect());
-    score.check();
+    if(on_game){
+        rects.push(new Rect());
+        score.check();
+    }
     setTimeout(addRect,1000);
 }
 
@@ -139,8 +128,11 @@ let on_game = false;
 canvas.onclick = function(event){
     if(!on_game){
         on_game = true;
-        addRect();
     }
+}
+function gameover(){
+    on_game = false;
+    rects = [];
 }
 
 let score = new Score();
@@ -187,25 +179,14 @@ function Animate(){
     draw_ClickToStart();
     score.draw();
 
-    if(on_game){
-        for(let i=0; i<rects.length; i++){
-            rects[i].moving();
-            rects[i].spinning();
-            rects[i].spawning();
-            rects[i].draw();
-            player.drawClone();
-            rects[i].check_crash();
-        }
-    }
-    else{
-        for(let i=0; i<rects.length; i++){
-            rects[i].moving();
-            rects[i].spinning();
-            rects[i].despawning();
-            rects[i].draw();
-            if(rects[0].opacity==0) rects=[];
-        }
+    for(let i=0; i<rects.length; i++){
+        rects[i].moving();
+        rects[i].spinning();
+        rects[i].spawning();
+        rects[i].draw();
+        rects[i].check_crash();
     }
     requestAnimationFrame(Animate);
 }
 Animate();
+addRect();
