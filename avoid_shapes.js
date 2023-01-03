@@ -7,11 +7,60 @@ let em = canvas.width*canvas.height;
 let size = em / 30000;
 console.log(size);
 
-let mouse_x = 0;
-let mouse_y = 0;
+let player = new Player();
 canvas.onmousemove = function(event){
-    mouse_x = event.clientX - ctx.canvas.offsetLeft;
-    mouse_y = event.clientY - ctx.canvas.offsetTop;
+    const x = event.clientX - ctx.canvas.offsetLeft;
+    const y = event.clientY - ctx.canvas.offsetTop;
+    player.setPos(x,y);
+}
+
+function Player(){
+    this.x_dest = 0;
+    this.y_dest = 0;
+    this.x = canvas.width/2;
+    this.y = canvas.height/2;
+    this.speed = 0.2;
+    this.r = 2010;
+    this.opacity = 100;
+
+    this.getX = function(){
+        return this.x;
+    }
+    this.getY = function(){
+        return this.y;
+    }
+    this.setPos = function(x,y){
+        this.x_dest=x;
+        this.y_dest=y;
+    }
+    this.animate = function(){
+        if(on_game){
+            if(this.r>10) this.r -= 100;
+        }
+        else{
+            if(this.r<2010) this.r += 100;
+        }
+    }
+    this.move = function(){
+        let dx = this.x_dest - this.x;
+        let dy = this.y_dest - this.y;
+        let d = Math.sqrt( dx*dx + dy*dy );
+
+        if(d < this.speed){
+            this.x = this.x_dest;
+            this.y = this.y_dest;
+        }
+        else{
+            this.x += (dx>0?1:-1) * this.speed * Math.sqrt(d*d - dy*dy); 
+            this.y += (dy>0?1:-1) * this.speed * Math.sqrt(d*d - dx*dx);
+        }
+    }
+    this.draw = function(){
+        ctx.fillStyle = 'rgb(255,255,255)';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+        ctx.fill();
+    }
 }
 
 let rects = [];
@@ -58,7 +107,7 @@ function Rect(){
     }
     this.check_crash = function(){
         if(this.current_size > this.size) return;
-        let dist = Math.sqrt(Math.pow(this.x - mouse_x, 2) + Math.pow(this.y - mouse_y, 2));
+        let dist = Math.sqrt(Math.pow(this.x - player.getX(), 2) + Math.pow(this.y - player.getY(), 2));
         if( dist <= (this.size*0.7) ){
             on_game=false;
         }
@@ -81,6 +130,9 @@ canvas.onclick = function(event){
 function Animate(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
+    player.animate();
+    player.move();
+    player.draw();
     draw_Score();
 
     if(on_game){
@@ -114,23 +166,23 @@ function draw_Score(){
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-    this.x = canvas.width/2 + (canvas.width/2 - mouse_x) * 0.05;
-    this.y = canvas.height/2 + (canvas.height/2 - mouse_y) * 0.05;
+    this.x = canvas.width/2 + (canvas.width/2 - player.getX()) * 0.05;
+    this.y = canvas.height/2 + (canvas.height/2 - player.getY()) * 0.05;
    
     ctx.save();
     ctx.fillText(score, this.x, this.y);
     ctx.restore();
 }
 function draw_ClickToStart(){
-    console.log(1);
+    // console.log(1);
     ctx.save();
     ctx.font = em/9000+'px Arial';
     ctx.fillStyle = 'rgba(255,255,255,0.1)';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
 
-    this.x = canvas.width/2 + (canvas.width/2 - mouse_x) * 0.1;
-    this.y = canvas.height/5*3 + (canvas.height/2 - mouse_y) * 0.1;
+    this.x = canvas.width/2 + (canvas.width/2 - player.getX()) * 0.1;
+    this.y = canvas.height/5*3 + (canvas.height/2 - player.getY()) * 0.1;
     ctx.fillText("Click to Start", this.x, this.y);
     ctx.restore();
 }
