@@ -15,7 +15,6 @@ canvas.onmousemove = function(event){
 }
 
 let rects = [];
-
 function Rect(){
     this.size = Math.floor(Math.random()*size/2) + Math.floor(size);
     this.x = this.size + Math.random() * (canvas.width - this.size*2);
@@ -38,19 +37,19 @@ function Rect(){
         ctx.strokeRect(0 - this.current_size/2, 0 - this.current_size/2, this.current_size, this.current_size);
         ctx.restore();
     }
-    this.update = function(){
+    this.moving = function(){
         this.x += this.dx;
         if(this.x >= canvas.width - this.size*0.7 || this.x <= this.size*0.7)
             this.dx *= -1;
 
         this.y += this.dy;
         if(this.y >= canvas.height - this.size*0.7 || this.y <= this.size*0.7)
-            this.dy *= -1;
-
-        this.angle += this.spin;
-        // console.log(this.x, this.y);        
+            this.dy *= -1;   
     }
-    this.reduceSize = function(){
+    this.spinning = function(){
+        this.angle += this.spin;  
+    }
+    this.spawning = function(){
         if(this.current_size > this.size){
             this.current_size -= this.size/2;
             this.opacity += 2.5;
@@ -64,11 +63,10 @@ function Rect(){
             on_game=false;
         }
     }
-    this.destroy = function(){
+    this.despawning = function(){
         this.current_size += this.size/2;
         this.opacity -= 2.5;
         this.strokeStyle = 'hsla('+this.color+',100%,80%,'+this.opacity+'%)';
-        if(this.opacity==0) rects=[];
     }
 }
 
@@ -85,20 +83,24 @@ function Animate(){
     drawScore();
     if(on_game){
         for(let i=0; i<rects.length; i++){
-            rects[i].update();
-            rects[i].reduceSize();
+            rects[i].moving();
+            rects[i].spinning();
+            rects[i].spawning();
             rects[i].draw();
             rects[i].check_crash();
         }
     }
     else{
         for(let i=0; i<rects.length; i++){
-            rects[i].destroy();
+            rects[i].despawning();
+            rects[i].draw();
+            if(rects[0].opacity==0) rects=[];
         }
     }
     requestAnimationFrame(Animate);
 }
 Animate();
+
 function drawScore(){
     ctx.save();
     let size = (on_game) ? em/3000 : em/9000;
