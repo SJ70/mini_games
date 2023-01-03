@@ -61,6 +61,13 @@ function Player(){
         ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
         ctx.fill();
     }
+    //숫자가 캐릭터 앞에 그려지는 것을 대비
+    this.drawClone = function(){
+        ctx.fillStyle = 'rgb(255,255,255)';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 10, 0, Math.PI*2);
+        ctx.fill();
+    }
 }
 
 let rects = [];
@@ -127,13 +134,16 @@ canvas.onclick = function(event){
     }
 }
 
+let score = new Score();
+
 function Animate(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
     player.animate();
     player.move();
     player.draw();
-    draw_Score();
+    draw_ClickToStart();
+    score.draw();
 
     if(on_game){
         for(let i=0; i<rects.length; i++){
@@ -141,11 +151,11 @@ function Animate(){
             rects[i].spinning();
             rects[i].spawning();
             rects[i].draw();
+            player.drawClone();
             rects[i].check_crash();
         }
     }
     else{
-        draw_ClickToStart();
         for(let i=0; i<rects.length; i++){
             rects[i].moving();
             rects[i].spinning();
@@ -158,26 +168,31 @@ function Animate(){
 }
 Animate();
 
-var score = "";
-function draw_Score(){
-    if(on_game && rects.length>1) score = rects.length-1;
-    ctx.font = em/3000+'px Arial';
-    ctx.fillStyle = on_game ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.75)';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-
-    this.x = canvas.width/2 + (canvas.width/2 - player.getX()) * 0.05;
-    this.y = canvas.height/2 + (canvas.height/2 - player.getY()) * 0.05;
-   
-    ctx.save();
-    ctx.fillText(score, this.x, this.y);
-    ctx.restore();
+function Score(){
+    this.score = 0;
+    this.check = function(){
+        this.score=rects.length-1;
+    }
+    this.draw = function(){
+        ctx.font = em/3000+'px Arial';
+        ctx.fillStyle = 'rgba(135,135,135,0.2)';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+    
+        this.x = canvas.width/2 + (canvas.width/2 - player.getX()) * 0.05;
+        this.y = canvas.height/2 + (canvas.height/2 - player.getY()) * 0.05;
+       
+        ctx.save();
+        ctx.fillText(this.score, this.x, this.y);
+        ctx.restore();
+    }
 }
+
 function draw_ClickToStart(){
     // console.log(1);
     ctx.save();
     ctx.font = em/9000+'px Arial';
-    ctx.fillStyle = 'rgba(255,255,255,0.1)';
+    ctx.fillStyle = 'rgba(15,15,15,0.1)';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
 
@@ -191,5 +206,6 @@ const _spawningScale = 30;
 function addRect(){
     if(!on_game) return;
     rects.push(new Rect());
+    score.check();
     setTimeout(addRect,1000);
 }
