@@ -252,7 +252,6 @@ function Animate(){
         rects[i].draw();
         rects[i].check_crash();
     }
-    console.log(_spawnCounter)
     _spawnCounter++;
     if(_spawnCounter==60){
         _spawnCounter=0;
