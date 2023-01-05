@@ -41,6 +41,7 @@ function Ball(){
     this.dy = -1 * (canvas.height/25 + Math.random()*canvas.height/1000); 
     this.ddy = -1 * (canvas.height/1200);
     this.color = Math.random()*360;
+    this.destroyed = false;
 
     this.move = function(){
         this.x += this.dx;
@@ -53,6 +54,22 @@ function Ball(){
         ctx.beginPath();
         ctx.arc(this.x+this.r, this.y+this.r, this.r, 0, Math.PI*2);
         ctx.fill();
+    }
+    //todo 충돌 구현...
+    this.checkCrashed = function(info){
+        if(Math.pow(this.r+info[2],2) <= (Math.pow(this.x-info[0],2) + Math.pow(this.y-info[1]),2)){
+            console.log(1);
+            this.destroyed = true;
+        }
+    }
+    this.destroy = function(){
+        this.r -= this.r/10;
+    }
+    this.isDestroyed = function(){
+        return this.destroyed;
+    }
+    this.isTooSmall = function(){
+        return this.r<0;
     }
 }
 
@@ -104,6 +121,7 @@ function CannonBall(x,y){
     this.y = canvas.height;
     this.dx = x - this.x;
     this.dy = y - this.y;
+    this.size = canvas.diag/75;
 
     this.speed = canvas.diag/20;
 
@@ -116,8 +134,11 @@ function CannonBall(x,y){
         ctx.beginPath();
         ctx.fillStyle = '#151515';
         ctx.arc(this.x,this.y,canvas.diag/75,0,Math.PI*2);
-        ctx.arc(this.x-canvas.width,this.y-canvas.height,canvas.diag/75,0,Math.PI*2);
+        ctx.arc(this.x-canvas.width,this.y-canvas.height,this.size,0,Math.PI*2);
         ctx.fill();
+    }
+    this.getPosAndSize = function(){
+        return [this.x,this.y,this.size];
     }
 }
 
@@ -136,11 +157,16 @@ function Animate(){
     for(let i=0; i<balls.length; i++){
         balls[i].move();
         balls[i].draw();
+        if(balls[i].isDestroyed == true){
+            balls[i].destroy();
+        }
+        for(let j=0; j<cannonBalls.length; j++){
+            balls[i].checkCrashed(cannonBalls[j].getPosAndSize());
+        }
     }
 
     cannon.decreaseDelay();
     cannon.draw();
-    // cannon.drawLine();
 
     if(++_spawnCounter >= _spawnRate){
         _spawnCounter = 0;
