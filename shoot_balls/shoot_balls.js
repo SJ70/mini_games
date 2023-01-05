@@ -10,7 +10,9 @@ init_canvas_size();
 let cannon = new Cannon();
 
 canvas.onclick = function(event){
-    console.log('click');
+    const x = event.clientX - ctx.canvas.offsetLeft;
+    const y = event.clientY - ctx.canvas.offsetTop;
+    cannonBalls.push(new CannonBall(x,y));
 }
 
 canvas.onmousemove = function(event){
@@ -102,6 +104,29 @@ function Cannon(){
     }
 }
 
+let cannonBalls = [];
+function CannonBall(x,y){
+    this.x = canvas.width;
+    this.y = canvas.height;
+    this.dx = x - this.x;
+    this.dy = y - this.y;
+
+    this.speed = canvas.diag/30;
+
+    this.move = function(){
+        let d = Math.sqrt( this.dx*this.dx + this.dy*this.dy );
+        this.x += this.speed * (this.dx/d);
+        this.y += this.speed * (this.dy/d);
+    }
+    this.draw = function(){
+        ctx.beginPath();
+        ctx.fillStyle = '#151515';
+        ctx.arc(this.x,this.y,canvas.diag/75,0,Math.PI*2);
+        ctx.arc(this.x-canvas.width,this.y-canvas.height,canvas.diag/75,0,Math.PI*2);
+        ctx.fill();
+    }
+}
+
 let _spawnrate = 60;
 let _spawnCounter = 0;
 function Animate(){
@@ -112,6 +137,10 @@ function Animate(){
     for(let i=0; i<balls.length; i++){
         balls[i].move();
         balls[i].draw();
+    }
+    for(let i=0; i<cannonBalls.length; i++){
+        cannonBalls[i].move();
+        cannonBalls[i].draw();
     }
 
     cannon.draw();
