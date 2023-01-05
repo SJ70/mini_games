@@ -232,7 +232,8 @@ function draw_ClickToStart(){
 
 let _spawnCounter = 0;
 function Animate(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "#151515";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
 
     rectEdge.edge_moving();
     rectEdge.spinning();
