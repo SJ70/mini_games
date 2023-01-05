@@ -12,7 +12,7 @@ let cannon = new Cannon();
 canvas.onclick = function(event){
     const x = event.clientX - ctx.canvas.offsetLeft;
     const y = event.clientY - ctx.canvas.offsetTop;
-    cannonBalls.push(new CannonBall(x,y));
+    cannon.shot(x,y);
 }
 
 canvas.onmousemove = function(event){
@@ -54,14 +54,12 @@ function Ball(){
         ctx.arc(this.x+this.r, this.y+this.r, this.r, 0, Math.PI*2);
         ctx.fill();
     }
-    this.shot = function(){
-
-    }
 }
 
 function Cannon(){
     this.x = 0;
     this.y = 0;
+    this.delay = 0;
 
     this.setPos = function(x,y){
         this.x = x;
@@ -72,13 +70,13 @@ function Cannon(){
         ctx.save();
         ctx.beginPath();
         ctx.strokeStyle = '#252525';
-        ctx.lineWidth = canvas.diag/35;
+        ctx.lineWidth = canvas.diag/25 - (_minSpawnRate-this.delay)/1.5;
         ctx.translate(canvas.width, canvas.height);
         let dx = this.x - canvas.width;
         let dy = this.y - canvas.height;
         ctx.rotate(270*Math.PI/180 + Math.asin(dx / Math.sqrt(dx*dx+dy*dy)));
         ctx.moveTo(0,0);
-        ctx.lineTo(canvas.diag/22, 0);
+        ctx.lineTo(canvas.diag/30 + (_minSpawnRate-this.delay)/1.5, 0);
         ctx.stroke();
         ctx.restore();
 
@@ -88,19 +86,14 @@ function Cannon(){
         ctx.fill();
 
     }
-    this.drawLine = function(){
-        ctx.beginPath();
-        ctx.strokeStyle = 'rgba(0,0,0,0.1)';
-        ctx.lineWidth = this.diag/100;
-        ctx.moveTo(canvas.width,canvas.height);
-        let x_dest = this.x;
-        let y_dest = this.y;
-        while(x_dest>0 || y_dest>0){
-            x_dest -= (canvas.width-this.x);
-            y_dest -= (canvas.height-this.y);
-        }
-        ctx.lineTo(x_dest, y_dest);
-        ctx.stroke();
+    this.decreaseDelay = function(){
+        if(this.delay>0) this.delay--;
+    }
+    this.shot = function(x,y){
+        if(this.delay==0){
+            this.delay = _minSpawnRate;
+            cannonBalls.push(new CannonBall(x,y));
+        } 
     }
 }
 
@@ -127,8 +120,9 @@ function CannonBall(x,y){
     }
 }
 
-let _spawnrate = 60;
+let _spawnRate = 60;
 let _spawnCounter = 0;
+const _minSpawnRate = 20;
 function Animate(){
     ctx.fillStyle = "#FAFAFA";
     ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -143,15 +137,19 @@ function Animate(){
         cannonBalls[i].draw();
     }
 
+    cannon.decreaseDelay();
     cannon.draw();
     // cannon.drawLine();
 
-    if(++_spawnCounter >= _spawnrate){
-        if(_spawnrate>20) _spawnrate *= 0.99;
+    if(++_spawnCounter >= _spawnRate){
         _spawnCounter = 0;
-        console.log(_spawnrate);
+        console.log(_spawnRate);
         balls.push(new Ball());
+
+        if(_spawnRate>_minSpawnRate) _spawnRate *= 0.99;
+        else if(_spawnRate<_minSpawnRate) _spawnRate = _minSpawnRate;
     }
+
 
     requestAnimationFrame(Animate);
 }
