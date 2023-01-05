@@ -60,6 +60,7 @@ function Cannon(){
     this.x = 0;
     this.y = 0;
     this.delay = 0;
+    this.shotDelay = 10;
 
     this.setPos = function(x,y){
         this.x = x;
@@ -91,7 +92,7 @@ function Cannon(){
     }
     this.shot = function(x,y){
         if(this.delay==0){
-            this.delay = _minSpawnRate;
+            this.delay = this.shotDelay;
             cannonBalls.push(new CannonBall(x,y));
         } 
     }
@@ -104,7 +105,7 @@ function CannonBall(x,y){
     this.dx = x - this.x;
     this.dy = y - this.y;
 
-    this.speed = canvas.diag/30;
+    this.speed = canvas.diag/20;
 
     this.move = function(){
         let d = Math.sqrt( this.dx*this.dx + this.dy*this.dy );
@@ -127,14 +128,14 @@ function Animate(){
     ctx.fillStyle = "#FAFAFA";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
-
-    for(let i=0; i<balls.length; i++){
-        balls[i].move();
-        balls[i].draw();
-    }
     for(let i=0; i<cannonBalls.length; i++){
         cannonBalls[i].move();
         cannonBalls[i].draw();
+    }
+    
+    for(let i=0; i<balls.length; i++){
+        balls[i].move();
+        balls[i].draw();
     }
 
     cannon.decreaseDelay();
