@@ -34,14 +34,19 @@ window.onload = function(){
 
 let balls = [];
 function Ball(){
-    this.r = canvas.height/15 + Math.random()*(canvas.height/30);
+    this.initial_r = canvas.height/15 + Math.random()*(canvas.height/30);
+    this.r = this.initial_r;
     this.x = this.r + (Math.random()*canvas.width/2);
     this.dx = (Math.random()>0.5 ? 1 : -1) * (Math.random()*canvas.width/300);
     this.y = canvas.height + this.r;
     this.dy = -1 * (canvas.height/25 + Math.random()*canvas.height/1000); 
     this.ddy = -1 * (canvas.height/1200);
     this.color = Math.random()*360;
+    this.opacity = 100;
+
     this.destroyed = false;
+    this.explode_r = this.initial_r;
+    this.explode_dr = this.explode_r/3;
 
     this.move = function(){
         this.x += this.dx;
@@ -50,26 +55,37 @@ function Ball(){
         this.dy -= this.ddy;
     }
     this.draw = function(){
-        ctx.fillStyle = 'hsla('+this.color+',100%,80%,100%)';
+        ctx.fillStyle = 'hsla('+this.color+',100%,80%,'+this.opacity+'%)';
         ctx.beginPath();
-        ctx.arc(this.x+this.r, this.y+this.r, this.r, 0, Math.PI*2);
+        ctx.arc(this.x+this.initial_r, this.y+this.initial_r, this.r, 0, Math.PI*2);
         ctx.fill();
+
+        if(this.destroyed){
+            ctx.strokeStyle = 'hsla('+this.color+',100%,80%,'+this.opacity+'%)';
+            ctx.beginPath();
+            ctx.arc(this.x+this.initial_r, this.y+this.initial_r, this.explode_r, 0, Math.PI*2);
+            ctx.lineWidth = canvas.diag/300;
+            ctx.stroke();
+        }
     }
     //todo 충돌 구현...
     this.checkCrashed = function(info){
-        if(Math.pow(this.r+info[2],2) <= (Math.pow(this.x-info[0],2) + Math.pow(this.y-info[1]),2)){
+        if(Math.pow(this.r+info[2],2) >= (Math.pow(this.x-info[0],2) + Math.pow(this.y-info[1],2))){
             console.log(1);
             this.destroyed = true;
         }
     }
     this.destroy = function(){
-        this.r -= this.r/10;
+        this.r *= 0.75;
+        this.explode_r += this.explode_dr;
+        this.explode_dr *= 0.9;
+        this.opacity -= 5;
     }
     this.isDestroyed = function(){
         return this.destroyed;
     }
-    this.isTooSmall = function(){
-        return this.r<0;
+    this.isDisappeared = function(){
+        return this.opacity < 0;
     }
 }
 
@@ -155,14 +171,17 @@ function Animate(){
     }
     
     for(let i=0; i<balls.length; i++){
-        balls[i].move();
-        balls[i].draw();
-        if(balls[i].isDestroyed == true){
+        if(balls[i].isDestroyed() == true){
+            console.log(11);
             balls[i].destroy();
         }
-        for(let j=0; j<cannonBalls.length; j++){
-            balls[i].checkCrashed(cannonBalls[j].getPosAndSize());
-        }
+        else{
+            balls[i].move();
+            for(let j=0; j<cannonBalls.length; j++){
+                balls[i].checkCrashed(cannonBalls[j].getPosAndSize());
+            }
+        } 
+        balls[i].draw();
     }
 
     cannon.decreaseDelay();
@@ -170,7 +189,6 @@ function Animate(){
 
     if(++_spawnCounter >= _spawnRate){
         _spawnCounter = 0;
-        console.log(_spawnRate);
         balls.push(new Ball());
 
         if(_spawnRate>_minSpawnRate) _spawnRate *= 0.99;
