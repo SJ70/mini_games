@@ -71,7 +71,6 @@ function Ball(){
     //todo 충돌 구현...
     this.checkCrashed = function(info){
         if(Math.pow(this.r+info[2],2) >= (Math.pow(this.x-info[0],2) + Math.pow(this.y-info[1],2))){
-            console.log(1);
             this.destroyed = true;
         }
     }
@@ -85,7 +84,7 @@ function Ball(){
         return this.destroyed;
     }
     this.isDisappeared = function(){
-        return this.opacity < 0;
+        return (this.opacity < 0) || (this.y > canvas.height+this.r);
     }
 }
 
@@ -93,7 +92,7 @@ function Cannon(){
     this.x = 0;
     this.y = 0;
     this.delay = 0;
-    this.shotDelay = 10;
+    this.shotDelay = 20;
 
     this.setPos = function(x,y){
         this.x = x;
@@ -156,6 +155,9 @@ function CannonBall(x,y){
     this.getPosAndSize = function(){
         return [this.x,this.y,this.size];
     }
+    this.isOutOfMap = function(){
+        return (this.x < -this.size) || (this.y < -this.size);
+    }
 }
 
 let _spawnRate = 60;
@@ -169,10 +171,10 @@ function Animate(){
         cannonBalls[i].move();
         cannonBalls[i].draw();
     }
+    if(cannonBalls.length>0 && cannonBalls[0].isOutOfMap() == true) cannonBalls.shift();
     
     for(let i=0; i<balls.length; i++){
         if(balls[i].isDestroyed() == true){
-            console.log(11);
             balls[i].destroy();
         }
         else{
@@ -183,6 +185,9 @@ function Animate(){
         } 
         balls[i].draw();
     }
+    balls = balls.filter(function(data){
+        return !data.isDisappeared();
+    });
 
     cannon.decreaseDelay();
     cannon.draw();
