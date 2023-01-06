@@ -1,11 +1,17 @@
+import Score from '../Score.js'
+
 const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
-init_canvas_size = function(){
+function init_canvas_size(){
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     canvas.diag = Math.sqrt(canvas.width*canvas.width + canvas.height*canvas.height);
 }
 init_canvas_size();
+
+let score = new Score();
+score.setColor1('rgba(30,30,30,0.2)');
+score.setColor2('rgba(250,250,250,0.1)');
 
 let cannon = new Cannon();
 
@@ -14,11 +20,12 @@ canvas.onclick = function(event){
     const y = event.clientY - ctx.canvas.offsetTop;
     cannon.shot(x,y);
 }
-
+let mouse_x = 0;
+let mouse_y = 0;
 canvas.onmousemove = function(event){
-    const x = event.clientX - ctx.canvas.offsetLeft;
-    const y = event.clientY - ctx.canvas.offsetTop;
-    cannon.setPos(x,y);
+    mouse_x = event.clientX - ctx.canvas.offsetLeft;
+    mouse_y = event.clientY - ctx.canvas.offsetTop;
+    cannon.setPos(mouse_x,mouse_y);
 }
 
 init();
@@ -174,13 +181,14 @@ function CannonBall(x,y){
 function Run(){
     resetCanvas();
     runCannonBalls();
-    runBalls();
     runCannon();
+    runScore();
     spawnBall();
+    runBalls();
     requestAnimationFrame(Run);
 }
 function resetCanvas(){
-    ctx.fillStyle = "#FAFAFA";
+    ctx.fillStyle = "rgb(250,250,250)";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 }
 function runCannonBalls(){
@@ -222,6 +230,11 @@ function spawnBall(){
         if(_spawnRate>_minSpawnRate) _spawnRate *= 0.99;
         else if(_spawnRate<_minSpawnRate) _spawnRate = _minSpawnRate;
     }
+}
+function runScore(){
+    score.setScore(1);
+    score.draw(ctx,canvas,mouse_x,mouse_y,1,-1);
+    score.draw_ClickToStart(ctx,canvas,mouse_x,mouse_y,1,-1);
 }
 Run();
 
