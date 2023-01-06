@@ -160,19 +160,27 @@ function CannonBall(x,y){
     }
 }
 
-let _spawnRate = 60;
-let _spawnCounter = 0;
-const _minSpawnRate = 20;
-function Animate(){
+
+function Run(){
+    resetCanvas();
+    runCannonBalls();
+    runBalls();
+    runCannon();
+    spawnBall();
+    requestAnimationFrame(Run);
+}
+function resetCanvas(){
     ctx.fillStyle = "#FAFAFA";
     ctx.fillRect(0,0,canvas.width,canvas.height);
-
+}
+function runCannonBalls(){
     for(let i=0; i<cannonBalls.length; i++){
         cannonBalls[i].move();
         cannonBalls[i].draw();
     }
     if(cannonBalls.length>0 && cannonBalls[0].isOutOfMap() == true) cannonBalls.shift();
-    
+}
+function runBalls(){
     for(let i=0; i<balls.length; i++){
         if(balls[i].isDestroyed() == true){
             balls[i].destroy();
@@ -188,10 +196,15 @@ function Animate(){
     balls = balls.filter(function(data){
         return !data.isDisappeared();
     });
-
+}
+function runCannon(){
     cannon.decreaseDelay();
     cannon.draw();
-
+}
+let _spawnRate = 60;
+let _spawnCounter = 0;
+const _minSpawnRate = 20;
+function spawnBall(){
     if(++_spawnCounter >= _spawnRate){
         _spawnCounter = 0;
         balls.push(new Ball());
@@ -199,9 +212,6 @@ function Animate(){
         if(_spawnRate>_minSpawnRate) _spawnRate *= 0.99;
         else if(_spawnRate<_minSpawnRate) _spawnRate = _minSpawnRate;
     }
-
-
-    requestAnimationFrame(Animate);
 }
-Animate();
+Run();
 
