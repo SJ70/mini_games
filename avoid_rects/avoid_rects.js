@@ -1,3 +1,5 @@
+import Score from '../Score.js';
+
 const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
@@ -192,43 +194,13 @@ function Rect(){
 function addRect(){
     if(on_game){
         rects.push(new Rect());
-        score.check();
+        score.setScore(rects.length-1);
     }
 }
 
 let score = new Score();
-function Score(){
-    this.score = 0;
-    this.check = function(){
-        this.score=rects.length-1;
-    }
-    this.draw = function(){
-        ctx.font = canvas.diag/4+'px Arial';
-        ctx.fillStyle = 'rgba(135,135,135,0.2)';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-    
-        this.x = canvas.width/2 + (canvas.width/2 - player.getX()) * 0.05;
-        this.y = canvas.height/2 + (canvas.height/2 - player.getY()) * 0.05;
-       
-        ctx.save();
-        ctx.fillText(this.score, this.x, this.y);
-        ctx.restore();
-    }
-}
-
-function draw_ClickToStart(){
-    ctx.save();
-    ctx.font = canvas.diag/12+'px Arial';
-    ctx.fillStyle = 'rgba(15,15,15,0.1)';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-
-    this.x = canvas.width/2 + (canvas.width/2 - player.getX()) * 0.1;
-    this.y = canvas.height/5*3 + (canvas.height/2 - player.getY()) * 0.1;
-    ctx.fillText("Click to Start", this.x, this.y);
-    ctx.restore();
-}
+score.setColor1('rgba(135,135,135,0.2)');
+score.setColor2('rgba(15,15,15,0.1)');
 
 let _spawnCounter = 0;
 function Animate(){
@@ -243,8 +215,9 @@ function Animate(){
     player.animate();
     player.move();
     player.draw();
-    draw_ClickToStart();
-    score.draw();
+
+    score.draw_ClickToStart(ctx, canvas, player.getX(), player.getY(),-1,-1);
+    score.draw(ctx, canvas, player.getX(), player.getY(),-1,-1);
 
     for(let i=0; i<rects.length; i++){
         rects[i].moving();
