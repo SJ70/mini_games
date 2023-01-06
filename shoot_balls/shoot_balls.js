@@ -93,6 +93,7 @@ function Cannon(){
     this.y = 0;
     this.delay = 0;
     this.shotDelay = 20;
+    this.angle = 0;
 
     this.setPos = function(x,y){
         this.x = x;
@@ -100,22 +101,24 @@ function Cannon(){
     }
     this.draw = function(){
 
+        let size_var = Math.log(_minSpawnRate-this.delay)*5;
         ctx.save();
         ctx.beginPath();
-        ctx.strokeStyle = '#252525';
-        ctx.lineWidth = canvas.diag/25 - (_minSpawnRate-this.delay)/1.5;
+        ctx.strokeStyle = '#151515';
+        ctx.lineWidth = canvas.diag/25 - size_var;
         ctx.translate(canvas.width, canvas.height);
         let dx = this.x - canvas.width;
         let dy = this.y - canvas.height;
-        ctx.rotate(270*Math.PI/180 + Math.asin(dx / Math.sqrt(dx*dx+dy*dy)));
+        this.angle = 270*Math.PI/180 + Math.asin(dx / Math.sqrt(dx*dx+dy*dy));
+        ctx.rotate(this.angle);
         ctx.moveTo(0,0);
-        ctx.lineTo(canvas.diag/30 + (_minSpawnRate-this.delay)/1.5, 0);
+        ctx.lineTo(canvas.diag/30 + size_var, 0);
         ctx.stroke();
         ctx.restore();
 
         ctx.beginPath();
         ctx.fillStyle = '#151515';
-        ctx.arc(canvas.width, canvas.height, canvas.diag/30, 0, Math.PI*2);
+        ctx.arc(canvas.width, canvas.height, canvas.diag/40 + size_var/1.5, 0, Math.PI*2);
         ctx.fill();
 
     }
@@ -128,6 +131,9 @@ function Cannon(){
             cannonBalls.push(new CannonBall(x,y));
         } 
     }
+    this.getAngle = function(){
+        return this.angle;
+    }
 }
 
 let cannonBalls = [];
@@ -136,9 +142,10 @@ function CannonBall(x,y){
     this.y = canvas.height;
     this.dx = x - this.x;
     this.dy = y - this.y;
-    this.size = canvas.diag/75;
+    this.size = canvas.diag/100;
+    this.angle = cannon.getAngle();
 
-    this.speed = canvas.diag/20;
+    this.speed = canvas.diag/15;
 
     this.move = function(){
         let d = Math.sqrt( this.dx*this.dx + this.dy*this.dy );
@@ -146,11 +153,15 @@ function CannonBall(x,y){
         this.y += this.speed * (this.dy/d);
     }
     this.draw = function(){
+        ctx.save();
+        ctx.translate(this.x, this.y);
         ctx.beginPath();
         ctx.fillStyle = '#151515';
-        ctx.arc(this.x,this.y,canvas.diag/75,0,Math.PI*2);
-        ctx.arc(this.x-canvas.width,this.y-canvas.height,this.size,0,Math.PI*2);
+        ctx.rotate(this.angle);
+        ctx.scale(1.5,1);
+        ctx.arc(0,0,this.size,0,Math.PI*2);
         ctx.fill();
+        ctx.restore();
     }
     this.getPosAndSize = function(){
         return [this.x,this.y,this.size];
@@ -159,7 +170,6 @@ function CannonBall(x,y){
         return (this.x < -this.size) || (this.y < -this.size);
     }
 }
-
 
 function Run(){
     resetCanvas();
