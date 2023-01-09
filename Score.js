@@ -1,18 +1,17 @@
-function Score(){
-    this.score = 0;
-    this.color1 = 'white';
-    this.color2 = 'black';
+class Score{
+    score = 0;
+    color1 = 'white';
+    color2 = 'black';
 
-    this.setScore = function(score){
+    constructor(color1, color2){
+        this.color1 = color1;
+        this.color2 = color2;
+    }
+
+    setScore(score){
         this.score=score;
     }
-    this.setColor1 = function(color){
-        this.color1 = color;
-    }
-    this.setColor2 = function(color){
-        this.color2 = color;
-    }
-    this.draw = function(ctx, canvas, x, y, followX, followY){
+    draw(ctx, canvas, x, y, followX, followY){
         ctx.font = canvas.diag/4+'px Arial';
         ctx.fillStyle = this.color1;
         ctx.textAlign = 'center';
@@ -25,7 +24,7 @@ function Score(){
         ctx.fillText(this.score, this.x, this.y);
         ctx.restore();
     }
-    this.draw_ClickToStart = function(ctx, canvas, x, y, followX, followY){
+    draw_ClickToStart(ctx, canvas, x, y, followX, followY){
         ctx.font = canvas.diag/12+'px Arial';
         ctx.fillStyle = this.color2;
         ctx.textAlign = 'center';

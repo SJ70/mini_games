@@ -1,18 +1,11 @@
-import Score from '../Score.js'
+import Score from '../Score.js';
+import { InitCanvasSize } from '../Canvas.js';
 
 const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
-function init_canvas_size(){
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    canvas.diag = Math.sqrt(canvas.width*canvas.width + canvas.height*canvas.height);
-}
-init_canvas_size();
+InitCanvasSize(canvas);
 
-let score = new Score();
-score.setColor1('rgba(30,30,30,0.2)');
-score.setColor2('rgba(250,250,250,0.1)');
-
+let score = new Score('rgba(30,30,30,0.2)', 'rgba(250,250,250,0.1)');
 let cannon = new Cannon();
 
 canvas.onclick = function(event){

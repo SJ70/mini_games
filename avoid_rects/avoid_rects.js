@@ -1,16 +1,15 @@
 import Score from '../Score.js';
+import { InitCanvasSize } from '../Canvas.js';
 
 const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-canvas.diag = Math.sqrt(canvas.width*canvas.width + canvas.height*canvas.height);
+InitCanvasSize(canvas);
 
 let player = new Player();
 let rects = [];
 let rectEdge = new Rect();
-
 let on_game = false;
+
 canvas.onclick = function(event){
     if(!on_game){
         on_game = true;
@@ -198,9 +197,7 @@ function addRect(){
     }
 }
 
-let score = new Score();
-score.setColor1('rgba(135,135,135,0.2)');
-score.setColor2('rgba(15,15,15,0.1)');
+let score = new Score('rgba(135,135,135,0.2)', 'rgba(15,15,15,0.1)');
 
 let _spawnCounter = 0;
 function Animate(){
