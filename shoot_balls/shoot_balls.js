@@ -1,5 +1,5 @@
-import Score from '../Score.js';
-import { InitCanvasSize } from '../Canvas.js';
+import Score from '../essential/Score.js';
+import { InitCanvasSize } from '../essential/Canvas.js';
 
 const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
