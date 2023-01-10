@@ -109,3 +109,4 @@
 > 게임 오브젝트 크기의 척도 대부분을 대각선에서 넓이로 변경하였다.
 >
 > Dot.js가 화면 전환 역할 뿐만 아니라 Player.js와 함께 마우스 포인터의 역할을 함께 수행하고 있었다. 이에 따라 Dot.js를 CircleEffector.js로 바꾸어 화면 전환기의 기능만을 하게 하였고, MouseFollower.js를 만들어 Player.js와 Dot.js에서의 마우스포인터의 기능을 나누어내었다. 이러한 변경에 따라 avoid_rects.js와 shoot_balls.js 또한 수정되었다.
+> Score.js에 MouseFollower 객체를 사용하여 점수가 마우스의 위치에 따라 다른 위치로 부드럽게 움직임을 구현하였다.
