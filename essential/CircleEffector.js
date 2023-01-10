@@ -1,8 +1,9 @@
-class Dot{
-    
-    constructor(canvas, sizeDivisor, x, y){
-        this.x = x;
-        this.y = y;
+export class CircleEffector{
+    x = 0;
+    y = 0;
+
+    constructor(canvas, color, sizeDivisor){
+        this.color = color;
         this.sizeDivisor = sizeDivisor;
 
         this.size = Math.round(canvas.area / this.sizeDivisor);
@@ -12,14 +13,12 @@ class Dot{
 
     resize(canvas){
         this.size = Math.round(canvas.area / this.sizeDivisor);
-        this.sizeTolerance = Math.ceil((canvas.diag-this.MinSize)/15);
+        this.sizeTolerance = Math.ceil((canvas.diag-this.size)/15);
     }
-    
-    getX(){
-        return this.x;
-    }
-    getY(){
-        return this.y;
+
+    setPos([x,y]){
+        this.x = x;
+        this.y = y;
     }
 
     decreaseSize(){
@@ -29,16 +28,15 @@ class Dot{
         if(this.sizeMultiple<15) this.sizeMultiple++;
     }
     
-
-    draw(ctx, color, r, c){
-        ctx.fillStyle = color;
+    draw(ctx, r, c){
+        ctx.fillStyle = this.color;
         ctx.beginPath();
         switch(arguments.length){
-            case 2 : ctx.arc(this.x, this.y, this.size + (this.sizeTolerance*this.sizeMultiple), 0, Math.PI*2); break;
-            case 4 : ctx.arc(r, c, this.size + (this.sizeTolerance*this.sizeMultiple), 0, Math.PI*2); break;
+            case 1 : ctx.arc(this.x, this.y, this.size + (this.sizeTolerance*this.sizeMultiple), 0, Math.PI*2); break;
+            case 3 : ctx.arc(r, c, this.size + (this.sizeTolerance*this.sizeMultiple), 0, Math.PI*2); break;
         }
         ctx.fill();
     }
 }
 
-export default Dot;
+export default CircleEffector;

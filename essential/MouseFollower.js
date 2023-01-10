@@ -1,10 +1,9 @@
-import Dot from '../essential/Dot.js';
+export class MouseFollower{
+    x=0;
+    y=0;
 
-export class Player extends Dot{
-
-    constructor(canvas, x, y){
-        super(canvas, 100, x, y);
-        this.speed = canvas.area/10000;
+    constructor(canvas, divisor){
+        this.speed = (arguments.length==2) ? canvas.area/divisor : canvas.area/100;
         this.x_dest=0;
         this.y_dest=0;
     }
@@ -12,6 +11,18 @@ export class Player extends Dot{
     setDestPos(x,y){
         this.x_dest=x;
         this.y_dest=y;
+    }
+
+    getPos(){
+        return [this.x, this.y];
+    }
+
+    getX(){
+        return this.x;
+    }
+
+    getY(){
+        return this.y;
     }
     
     move(){
@@ -29,4 +40,4 @@ export class Player extends Dot{
         }
     }
 }
-export default Player;
+export default MouseFollower;

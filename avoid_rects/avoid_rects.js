@@ -1,17 +1,20 @@
+import CircleEffector from '../essential/CircleEffector.js';
+import MouseFollower from '../essential/MouseFollower.js';
 import Score from '../essential/Score.js';
-import Player from './Player.js';
+import { canvasResize } from '../essential/Canvas.js';
 import RectInsider from './RectInsider.js';
 import RectOutsider from './RectOutsider.js';
-import { CanvasResize } from '../essential/Canvas.js';
 
 const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
-CanvasResize(canvas);
+canvasResize(canvas);
 
-let player = new Player(canvas, 0.01, 1, 1);
 let rects = [];
 let rectEdge = new RectOutsider(canvas);
 let on_game = false;
+// mouse + circle = player
+let mouse = new MouseFollower(canvas, 5000);
+let circle = new CircleEffector(canvas, 'rgb(255,255,255)', 100);
 let score = new Score('rgba(135,135,135,0.2)', 'rgba(15,15,15,0.1)');
 
 canvas.onclick = function(event){
@@ -22,11 +25,12 @@ canvas.onclick = function(event){
 canvas.onmousemove = function(event){
     const x = event.clientX - ctx.canvas.offsetLeft;
     const y = event.clientY - ctx.canvas.offsetTop;
-    player.setDestPos(x,y);
+    mouse.setDestPos(x,y);
 }
 function gamestart(){
     on_game = true;
     score.setScore(0);
+    _spawnCounter = 0;
 }
 function gameover(){
     on_game = false;
@@ -34,19 +38,17 @@ function gameover(){
 }
 window.onresize = function(){
     gameover();
-    CanvasResize(canvas);
+    canvasResize(canvas);
     rectEdge.resize(canvas);
-    player.resize(canvas);
+    circle.resize(canvas);
 }
 window.onload = function(){
     gameover();
 }
 
 function addRect(){
-    if(on_game){
-        rects.push(new RectInsider(canvas));
-        score.addScore();
-    }
+    rects.push(new RectInsider(canvas));
+    score.addScore();
 }
 
 let _spawnCounter = 0;
@@ -56,28 +58,31 @@ function Animate(){
 
     rectEdge.move(canvas);
     rectEdge.spin();
-    rectEdge.draw(ctx);
-    if(rectEdge.isCrashed(player.getX(),player.getY())) gameover();
+    if(on_game) rectEdge.draw(ctx);
+    if(rectEdge.isCrashed(mouse.getX(),mouse.getY())) gameover();
 
-    if(on_game) player.decreaseSize();
-    else player.increaseSize();
-    player.move();
-    player.draw(ctx, 'rgb(255,255,255)');
+    if(on_game) circle.decreaseSize();
+    else circle.increaseSize();
+    mouse.move();
+    circle.setPos(mouse.getPos());
+    circle.draw(ctx, mouse.getX(), mouse.getY());
 
-    score.draw_ClickToStart(ctx, canvas, player.getX(), player.getY(),-1,-1);
-    score.draw(ctx, canvas, player.getX(), player.getY(),-1,-1);
+    score.draw_ClickToStart(ctx, canvas, mouse.getX(), mouse.getY(), -1, -1);
+    score.draw(ctx, canvas, mouse.getX(), mouse.getY(), -1, -1);
 
     for(let i=0; i<rects.length; i++){
         rects[i].move(canvas);
         rects[i].spin();
         rects[i].spawn();
         rects[i].draw(ctx);
-        if(rects[i].isCrashed(player.getX(),player.getY())) gameover();
+        if(rects[i].isCrashed(mouse.getX(), mouse.getY())) gameover();
     }
-    _spawnCounter++;
-    if(_spawnCounter==60){
-        _spawnCounter=0;
-        addRect();
+    if(on_game){
+        _spawnCounter++;
+        if(_spawnCounter==60){
+            _spawnCounter=0;
+            addRect();
+        }
     }
     requestAnimationFrame(Animate);
 }

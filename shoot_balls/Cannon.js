@@ -1,25 +1,20 @@
-import Dot from '../essential/Dot.js';
-
-export class Cannon extends Dot{
+export class Cannon{
     x = 0;
     y = 0;
     delay = 0;
     shotDelay = 20;
     angle = 0;
-
-    constructor(canvas,x,y){
-        super(canvas,20,x,y);
-    }
+    color = "#151515";
 
     setPos(x,y){
         this.x = x;
         this.y = y;
     }
-    drawCannon(ctx, canvas){
+    draw(ctx, canvas){
         let size_var = Math.log(this.shotDelay-this.delay)*5;
         ctx.save();
         ctx.beginPath();
-        ctx.strokeStyle = '#151515';
+        ctx.strokeStyle = this.color;
         ctx.lineWidth = canvas.area*0.06 - size_var;
         ctx.translate(canvas.width, canvas.height);
         let dx = this.x - canvas.width;
@@ -32,7 +27,7 @@ export class Cannon extends Dot{
         ctx.restore();
         
         ctx.beginPath();
-        ctx.fillStyle = '#151515';
+        ctx.fillStyle = this.color;
         ctx.arc(canvas.width, canvas.height, canvas.area*0.04 + size_var/1.5, 0, Math.PI*2);
         ctx.fill();
     }

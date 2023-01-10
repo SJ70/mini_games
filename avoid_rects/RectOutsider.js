@@ -15,8 +15,11 @@ export class RectOutsider extends Rect{
         this.size = canvas.area/20;
     }
     resize(canvas){
+        this.x=0;
+        this.y=0;
         this.speed = Math.floor((canvas.area/100));
         this.dx = this.speed;
+        this.dy = 0;
         this.size = canvas.area/20;
     }
     draw(ctx){
