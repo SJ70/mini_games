@@ -8,15 +8,21 @@ const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
 InitCanvasSize(canvas);
 
-let score = new Score('rgba(30,30,30,0.2)', 'rgba(250,250,250,0.1)');
-let cannon = new Cannon();
+let score = new Score('rgba(120,120,120,0.2)', 'rgba(250,250,250,0.1)');
+let cannon = new Cannon(canvas,canvas.width,canvas.height);
+let on_game = false;
 
 canvas.onclick = function(event){
     const x = event.clientX - ctx.canvas.offsetLeft;
     const y = event.clientY - ctx.canvas.offsetTop;
-    if(cannon.isReadyToShot()){
-        cannon.resetDelay();
-        cannonBalls.push(new CannonBall(canvas,x,y,cannon.getAngle()));
+    if(!on_game){
+        gamestart();
+    }
+    else{
+        if(cannon.isReadyToShot()){
+            cannon.resetDelay();
+            cannonBalls.push(new CannonBall(canvas,x,y,cannon.getAngle()));
+        }
     }
 }
 let mouse_x = 0;
@@ -27,28 +33,31 @@ canvas.onmousemove = function(event){
     cannon.setPos(mouse_x,mouse_y);
 }
 
-init();
-function init(){
+window.onresize = function(){
     InitCanvasSize(canvas);
 }
-window.onresize = function(){
-    init();
-}
 window.onload = function(){
-    init();
+    InitCanvasSize(canvas);
 }
 
 let balls = [];
-
 let cannonBalls = [];
 
+function gamestart(){
+    on_game = true;
+    score.setScore(0);
+}
+function gameover(){
+    on_game = false;
+}
 function Run(){
     resetCanvas();
     runCannonBalls();
+    if(!on_game) runBalls();
     runCannon();
     runScore();
     spawnBall();
-    runBalls();
+    if(on_game) runBalls();
     requestAnimationFrame(Run);
 }
 function resetCanvas(){
@@ -64,13 +73,22 @@ function runCannonBalls(){
 }
 function runBalls(){
     for(let i=0; i<balls.length; i++){
-        if(balls[i].isDestroyed() == true){
+        if(balls[i].isOutOfMap(canvas)){
+            gameover();
+            for(let j=0; j<balls.length; j++){
+                balls[j].setDestroyed(true);
+            }
+        }
+        if(balls[i].isDestroyed()){
             balls[i].destroy();
         }
         else{
             balls[i].move();
             for(let j=0; j<cannonBalls.length; j++){
-                balls[i].checkCrashed(cannonBalls[j].getPosAndSize());
+                if(balls[i].isCrashed(cannonBalls[j].getPosAndSize())){
+                    balls[i].setDestroyed(true);
+                    score.addScore();
+                }
             }
         } 
         balls[i].draw(ctx,canvas);
@@ -80,13 +98,17 @@ function runBalls(){
     });
 }
 function runCannon(){
+    if(on_game) cannon.decreaseSize();
+    else cannon.increaseSize();
     cannon.decreaseDelay();
-    cannon.draw(ctx,canvas);
+    cannon.drawCannon(ctx,canvas);
+    cannon.draw(ctx,'#151515',canvas.width,canvas.height);
 }
 let _spawnRate = 60;
 let _spawnCounter = 0;
 const _minSpawnRate = 20;
 function spawnBall(){
+    if(!on_game) return;
     if(++_spawnCounter >= _spawnRate){
         _spawnCounter = 0;
         balls.push(new Ball(canvas));
@@ -96,7 +118,6 @@ function spawnBall(){
     }
 }
 function runScore(){
-    score.setScore(1);
     score.draw(ctx,canvas,mouse_x,mouse_y,1,-1);
     score.draw_ClickToStart(ctx,canvas,mouse_x,mouse_y,1,-1);
 }

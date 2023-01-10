@@ -22,7 +22,7 @@ export class Ball{
         this.y += this.dy;
         this.dy -= this.ddy;
     }
-    draw(ctx,canvas){
+    draw(ctx, canvas){
         ctx.fillStyle = 'hsla('+this.color+',100%,80%,'+this.opacity+'%)';
         ctx.beginPath();
         ctx.arc(this.x+this.initial_r, this.y+this.initial_r, this.r, 0, Math.PI*2);
@@ -37,10 +37,11 @@ export class Ball{
         }
     }
     //todo 충돌 구현...
-    checkCrashed(info){
-        if(Math.pow(this.r+info[2],2) >= (Math.pow(this.x-info[0],2) + Math.pow(this.y-info[1],2))){
-            this.destroyed = true;
-        }
+    isCrashed(info){
+        return (Math.pow(this.r+info[2],2) >= (Math.pow(this.x-info[0],2) + Math.pow(this.y-info[1],2)));
+    }
+    setDestroyed(bool){
+        this.destroyed = bool;
     }
     destroy(){
         this.r *= 0.75;
@@ -51,8 +52,11 @@ export class Ball{
     isDestroyed(){
         return this.destroyed;
     }
-    isDisappeared(canvas){
-        return (this.opacity < 0) || (this.y > canvas.height+this.r);
+    isDisappeared(){
+        return (this.opacity < 0); 
+    }
+    isOutOfMap(canvas){
+        return (this.y > canvas.height+this.r);
     }
 }
 export default Ball

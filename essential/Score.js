@@ -8,6 +8,9 @@ class Score{
         this.color2 = color2;
     }
 
+    addScore(){
+        this.score++;
+    }
     setScore(score){
         this.score=score;
     }

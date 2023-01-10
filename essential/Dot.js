@@ -1,6 +1,4 @@
 class Dot{
-    x_dest = 0;
-    y_dest = 0;
 
     constructor(canvas, x, y){
         this.x = x;
@@ -18,19 +16,24 @@ class Dot{
         return this.y;
     }
 
-    changeSize(on_game){
-        if(on_game){
-            if(this.size>this.MinSize) this.size -= this.SizeTolerance;
-        }
-        else{
-            if(this.size<this.MaxSize) this.size += this.SizeTolerance;
-        }
+    decreaseSize(){
+        if(this.size>this.MinSize) this.size -= this.SizeTolerance;
+    }
+    increaseSize(){
+        if(this.size<this.MaxSize) this.size += this.SizeTolerance;
     }
 
     draw(ctx, color){
         ctx.fillStyle = color;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+        ctx.fill();
+    }
+
+    draw(ctx, color, r, c){
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(r, c, this.size, 0, Math.PI*2);
         ctx.fill();
     }
 }
