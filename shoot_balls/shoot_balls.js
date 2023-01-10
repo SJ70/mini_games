@@ -1,5 +1,4 @@
 import CircleEffector from '../essential/CircleEffector.js';
-import MouseFollower from '../essential/MouseFollower.js';
 import Score from '../essential/Score.js';
 import { canvasResize } from '../essential/Canvas.js';
 import Ball from './Ball.js'
@@ -9,9 +8,12 @@ import CannonBall from './CannonBall.js'
 const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
 canvasResize(canvas);
-let score = new Score('rgba(120,120,120,0.2)', 'rgba(250,250,250,0.1)');
+
 let cannon = new Cannon(canvas);
+
 let on_game = false;
+let circle = new CircleEffector(canvas,'rgb(15,15,15)',100);
+let score = new Score(canvas, 'rgba(120,120,120,0.2)', 'rgba(250,250,250,0.1)');
 
 canvas.onclick = function(event){
     const x = event.clientX - ctx.canvas.offsetLeft;
@@ -26,20 +28,18 @@ canvas.onclick = function(event){
         }
     }
 }
-let mouse_x = 0;
-let mouse_y = 0;
+
 canvas.onmousemove = function(event){
-    mouse_x = event.clientX - ctx.canvas.offsetLeft;
-    mouse_y = event.clientY - ctx.canvas.offsetTop;
+    const mouse_x = event.clientX - ctx.canvas.offsetLeft;
+    const mouse_y = event.clientY - ctx.canvas.offsetTop;
     cannon.setPos(mouse_x,mouse_y);
+    score.setDestPos(mouse_x,mouse_y);
 }
 
 window.onresize = function(){
     gameover();
     canvasResize(canvas);
-}
-window.onload = function(){
-    canvasResize(canvas);
+    circle.resize(canvas);
 }
 
 let balls = [];
@@ -101,11 +101,11 @@ function runBalls(){
     });
 }
 function runCannon(){
-    if(on_game) cannon.decreaseSize();
-    else cannon.increaseSize();
+    if(on_game) circle.decreaseSize();
+    else circle.increaseSize();
     cannon.decreaseDelay();
-    cannon.drawCannon(ctx,canvas);
-    cannon.draw(ctx,canvas.width,canvas.height);
+    cannon.draw(ctx,canvas);
+    circle.draw(ctx,canvas.width,canvas.height);
 }
 let _spawnRate = 60;
 let _spawnCounter = 0;
@@ -122,8 +122,9 @@ function spawnBall(){
     }
 }
 function runScore(){
-    score.draw(ctx,canvas,mouse_x,mouse_y,1,-1);
-    score.draw_ClickToStart(ctx,canvas,mouse_x,mouse_y,1,-1);
+    score.move();
+    score.draw(ctx, canvas, 1, 1);
+    score.draw_ClickToStart(ctx, canvas, 1, 1);
 }
 Run();
 

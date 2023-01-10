@@ -1,10 +1,9 @@
 export class CircleEffector{
     x = 0;
     y = 0;
-
     constructor(canvas, color, sizeDivisor){
         this.color = color;
-        this.sizeDivisor = sizeDivisor;
+        this.sizeDivisor = (arguments.length==2) ? 100 : sizeDivisor;
 
         this.size = Math.round(canvas.area / this.sizeDivisor);
         this.sizeTolerance = Math.ceil((canvas.diag-this.size)/15);
@@ -16,7 +15,7 @@ export class CircleEffector{
         this.sizeTolerance = Math.ceil((canvas.diag-this.size)/15);
     }
 
-    setPos([x,y]){
+    setPos(x,y){
         this.x = x;
         this.y = y;
     }

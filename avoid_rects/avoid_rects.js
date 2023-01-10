@@ -11,11 +11,12 @@ canvasResize(canvas);
 
 let rects = [];
 let rectEdge = new RectOutsider(canvas);
+
 let on_game = false;
 // mouse + circle = player
-let mouse = new MouseFollower(canvas, 5000);
 let circle = new CircleEffector(canvas, 'rgb(255,255,255)', 100);
-let score = new Score('rgba(135,135,135,0.2)', 'rgba(15,15,15,0.1)');
+let mouse = new MouseFollower(canvas, 5000);
+let score = new Score(canvas, 'rgba(135,135,135,0.2)', 'rgba(15,15,15,0.1)');
 
 canvas.onclick = function(event){
     if(!on_game){
@@ -26,6 +27,7 @@ canvas.onmousemove = function(event){
     const x = event.clientX - ctx.canvas.offsetLeft;
     const y = event.clientY - ctx.canvas.offsetTop;
     mouse.setDestPos(x,y);
+    score.setDestPos(x,y);
 }
 function gamestart(){
     on_game = true;
@@ -64,11 +66,12 @@ function Animate(){
     if(on_game) circle.decreaseSize();
     else circle.increaseSize();
     mouse.move();
-    circle.setPos(mouse.getPos());
+    circle.setPos(mouse.getX(),mouse.getY());
     circle.draw(ctx, mouse.getX(), mouse.getY());
 
-    score.draw_ClickToStart(ctx, canvas, mouse.getX(), mouse.getY(), -1, -1);
-    score.draw(ctx, canvas, mouse.getX(), mouse.getY(), -1, -1);
+    score.move();
+    score.draw_ClickToStart(ctx, canvas, -1, -1);
+    score.draw(ctx, canvas, -1, -1);
 
     for(let i=0; i<rects.length; i++){
         rects[i].move(canvas);

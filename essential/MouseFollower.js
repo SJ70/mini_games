@@ -2,8 +2,8 @@ export class MouseFollower{
     x=0;
     y=0;
 
-    constructor(canvas, divisor){
-        this.speed = (arguments.length==2) ? canvas.area/divisor : canvas.area/100;
+    constructor(canvas, speedDivisor){
+        this.speed = canvas.area/speedDivisor;
         this.x_dest=0;
         this.y_dest=0;
     }
@@ -11,10 +11,6 @@ export class MouseFollower{
     setDestPos(x,y){
         this.x_dest=x;
         this.y_dest=y;
-    }
-
-    getPos(){
-        return [this.x, this.y];
     }
 
     getX(){
