@@ -8,8 +8,7 @@ const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
 InitCanvasSize(canvas);
 
-let player = new Player(canvas, 0, 0, canvas.diag/5000, Math.round(canvas.diag/150));
-player.setSpeed(canvas);
+let player = new Player(canvas, 0, 0);
 let rects = [];
 let RectEdge = new RectOutsider(canvas);
 let on_game = false;
@@ -20,26 +19,22 @@ canvas.onclick = function(event){
         on_game = true;
     }
 }
-function gameover(){
-    on_game = false;
-    rects = [];
-}
-init();
-function init(){
-    gameover();
-    InitCanvasSize(canvas);
-}
-window.onresize = function(){
-    init();
-}
-window.onload = function(){
-    init();
-}
-
 canvas.onmousemove = function(event){
     const x = event.clientX - ctx.canvas.offsetLeft;
     const y = event.clientY - ctx.canvas.offsetTop;
     player.setPos(x,y);
+}
+function gameover(){
+    on_game = false;
+    rects = [];
+}
+window.onresize = function(){
+    gameover();
+    InitCanvasSize(canvas);
+}
+window.onload = function(){
+    gameover();
+    InitCanvasSize(canvas);
 }
 
 function addRect(){

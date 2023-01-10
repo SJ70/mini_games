@@ -2,9 +2,11 @@ import Dot from '../essential/Dot.js';
 
 export class Player extends Dot{
 
-    setSpeed(canvas){
+    constructor(canvas, x, y){
+        super(canvas, x, y);
         this.speed = canvas.diag/5000;
     }
+    
     setPos(x,y){
         this.x_dest=x;
         this.y_dest=y;
