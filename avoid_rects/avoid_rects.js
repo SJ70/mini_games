@@ -2,15 +2,15 @@ import Score from '../essential/Score.js';
 import Player from './Player.js';
 import RectInsider from './RectInsider.js';
 import RectOutsider from './RectOutsider.js';
-import { InitCanvasSize } from '../essential/Canvas.js';
+import { CanvasResize } from '../essential/Canvas.js';
 
 const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
-InitCanvasSize(canvas);
+CanvasResize(canvas);
 
-let player = new Player(canvas, 1, 1);
+let player = new Player(canvas, 0.01, 1, 1);
 let rects = [];
-let RectEdge = new RectOutsider(canvas);
+let rectEdge = new RectOutsider(canvas);
 let on_game = false;
 let score = new Score('rgba(135,135,135,0.2)', 'rgba(15,15,15,0.1)');
 
@@ -34,11 +34,12 @@ function gameover(){
 }
 window.onresize = function(){
     gameover();
-    InitCanvasSize(canvas);
+    CanvasResize(canvas);
+    rectEdge.resize(canvas);
+    player.resize(canvas);
 }
 window.onload = function(){
     gameover();
-    InitCanvasSize(canvas);
 }
 
 function addRect(){
@@ -53,10 +54,10 @@ function Animate(){
     ctx.fillStyle = "#151515";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    RectEdge.move(canvas);
-    RectEdge.spin();
-    RectEdge.draw(ctx);
-    if(RectEdge.isCrashed(player.getX(),player.getY())) gameover();
+    rectEdge.move(canvas);
+    rectEdge.spin();
+    rectEdge.draw(ctx);
+    if(rectEdge.isCrashed(player.getX(),player.getY())) gameover();
 
     if(on_game) player.decreaseSize();
     else player.increaseSize();

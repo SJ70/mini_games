@@ -8,7 +8,7 @@ export class Cannon extends Dot{
     angle = 0;
 
     constructor(canvas,x,y){
-        super(canvas,x,y);
+        super(canvas,20,x,y);
     }
 
     setPos(x,y){
@@ -20,20 +20,20 @@ export class Cannon extends Dot{
         ctx.save();
         ctx.beginPath();
         ctx.strokeStyle = '#151515';
-        ctx.lineWidth = canvas.diag/25 - size_var;
+        ctx.lineWidth = canvas.area*0.06 - size_var;
         ctx.translate(canvas.width, canvas.height);
         let dx = this.x - canvas.width;
         let dy = this.y - canvas.height;
         this.angle = 270*Math.PI/180 + Math.asin(dx / Math.sqrt(dx*dx+dy*dy));
         ctx.rotate(this.angle);
         ctx.moveTo(0,0);
-        ctx.lineTo(canvas.diag/30 + size_var, 0);
+        ctx.lineTo(canvas.area*0.0525 + size_var, 0);
         ctx.stroke();
         ctx.restore();
         
         ctx.beginPath();
         ctx.fillStyle = '#151515';
-        ctx.arc(canvas.width, canvas.height, canvas.diag/40 + size_var/1.5, 0, Math.PI*2);
+        ctx.arc(canvas.width, canvas.height, canvas.area*0.04 + size_var/1.5, 0, Math.PI*2);
         ctx.fill();
     }
     decreaseDelay(){

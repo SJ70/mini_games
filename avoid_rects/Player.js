@@ -3,8 +3,8 @@ import Dot from '../essential/Dot.js';
 export class Player extends Dot{
 
     constructor(canvas, x, y){
-        super(canvas, x, y);
-        this.speed = canvas.diag/5000;
+        super(canvas, 100, x, y);
+        this.speed = canvas.area/10000;
         this.x_dest=0;
         this.y_dest=0;
     }

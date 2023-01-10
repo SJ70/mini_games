@@ -2,12 +2,11 @@ import Score from '../essential/Score.js';
 import Ball from './Ball.js'
 import Cannon from './Cannon.js'
 import CannonBall from './CannonBall.js'
-import { InitCanvasSize } from '../essential/Canvas.js';
+import { CanvasResize } from '../essential/Canvas.js';
 
 const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
-InitCanvasSize(canvas);
-
+CanvasResize(canvas);
 let score = new Score('rgba(120,120,120,0.2)', 'rgba(250,250,250,0.1)');
 let cannon = new Cannon(canvas,canvas.width,canvas.height);
 let on_game = false;
@@ -34,10 +33,11 @@ canvas.onmousemove = function(event){
 }
 
 window.onresize = function(){
-    InitCanvasSize(canvas);
+    gameover();
+    CanvasResize(canvas);
 }
 window.onload = function(){
-    InitCanvasSize(canvas);
+    CanvasResize(canvas);
 }
 
 let balls = [];
@@ -46,9 +46,13 @@ let cannonBalls = [];
 function gamestart(){
     on_game = true;
     score.setScore(0);
+    _spawnRate = _maxSpawnRate;
 }
 function gameover(){
     on_game = false;
+    for(let j=0; j<balls.length; j++){
+        balls[j].setDestroyed(true);
+    }
 }
 function Run(){
     resetCanvas();
@@ -73,11 +77,8 @@ function runCannonBalls(){
 }
 function runBalls(){
     for(let i=0; i<balls.length; i++){
-        if(balls[i].isOutOfMap(canvas)){
+        if(!balls[i].isDestroyed() && balls[i].isOutOfMap(canvas)){
             gameover();
-            for(let j=0; j<balls.length; j++){
-                balls[j].setDestroyed(true);
-            }
         }
         if(balls[i].isDestroyed()){
             balls[i].destroy();
@@ -106,6 +107,7 @@ function runCannon(){
 }
 let _spawnRate = 60;
 let _spawnCounter = 0;
+const _maxSpawnRate = 60;
 const _minSpawnRate = 20;
 function spawnBall(){
     if(!on_game) return;

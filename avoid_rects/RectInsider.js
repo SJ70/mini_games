@@ -1,8 +1,6 @@
 import Rect from './Rect.js';
 
 export class RectInsider extends Rect{
-    dx = ((Math.random()>=0.5)?1:-1) * ( 1 +Math.random()*3);
-    dy = ((Math.random()>=0.5)?1:-1) * ( 1 +Math.random()*3);
     angle = 0;
     spinAngle = ((Math.random()>=0.5)?1:-1) * ( 0.1 + Math.random()*0.05 );
     opacity = 0;
@@ -12,10 +10,12 @@ export class RectInsider extends Rect{
     
     constructor(canvas){
         super();
-        this.size = Math.floor(Math.random()*(canvas.diag/40)) + Math.floor((canvas.diag/40));
+        this.size = Math.floor(Math.random()*(canvas.area/30)) + Math.floor((canvas.area/15));
         this.current_size = this.size * 30;
         this.x = this.size + Math.random() * (canvas.width - this.size*2);
         this.y = this.size + Math.random() * (canvas.height - this.size*2);
+        this.dx = ((Math.random()>=0.5)?1:-1) * ( 1 +Math.random()*canvas.area/300);
+        this.dy = ((Math.random()>=0.5)?1:-1) * ( 1 +Math.random()*canvas.area/300);
     }
     draw(ctx){
         ctx.save();

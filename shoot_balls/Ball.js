@@ -1,7 +1,7 @@
 export class Ball{
 
     constructor(canvas){
-        this.initial_r = canvas.height/15 + Math.random()*(canvas.height/30);
+        this.initial_r = canvas.area/15 + Math.random()*(canvas.area/30);
         this.r = this.initial_r;
         this.x = this.r + (Math.random()*canvas.width/2);
         this.dx = (Math.random()>0.5 ? 1 : -1) * (Math.random()*canvas.width/300);
@@ -32,7 +32,7 @@ export class Ball{
             ctx.strokeStyle = 'hsla('+this.color+',100%,80%,'+this.opacity+'%)';
             ctx.beginPath();
             ctx.arc(this.x+this.initial_r, this.y+this.initial_r, this.explode_r, 0, Math.PI*2);
-            ctx.lineWidth = canvas.diag/300;
+            ctx.lineWidth = canvas.area/300;
             ctx.stroke();
         }
     }

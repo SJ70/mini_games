@@ -5,9 +5,9 @@ export class CannonBall{
         this.y = canvas.height;
         this.dx = x - this.x;
         this.dy = y - this.y;
-        this.size = canvas.diag/100;
+        this.size = canvas.area/60;
         this.angle = angle;
-        this.speed = canvas.diag/15;
+        this.speed = canvas.area/10;
     }
 
     move(){
