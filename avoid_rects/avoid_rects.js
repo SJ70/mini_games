@@ -8,7 +8,7 @@ const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
 InitCanvasSize(canvas);
 
-let player = new Player(canvas, 0, 0);
+let player = new Player(canvas, 1, 1);
 let rects = [];
 let RectEdge = new RectOutsider(canvas);
 let on_game = false;
@@ -16,13 +16,17 @@ let score = new Score('rgba(135,135,135,0.2)', 'rgba(15,15,15,0.1)');
 
 canvas.onclick = function(event){
     if(!on_game){
-        on_game = true;
+        gamestart();
     }
 }
 canvas.onmousemove = function(event){
     const x = event.clientX - ctx.canvas.offsetLeft;
     const y = event.clientY - ctx.canvas.offsetTop;
-    player.setPos(x,y);
+    player.setDestPos(x,y);
+}
+function gamestart(){
+    on_game = true;
+    score.setScore(0);
 }
 function gameover(){
     on_game = false;
@@ -40,7 +44,7 @@ window.onload = function(){
 function addRect(){
     if(on_game){
         rects.push(new RectInsider(canvas));
-        score.setScore(rects.length-1);
+        score.addScore();
     }
 }
 
@@ -54,7 +58,8 @@ function Animate(){
     RectEdge.draw(ctx);
     if(RectEdge.isCrashed(player.getX(),player.getY())) gameover();
 
-    player.changeSize(on_game);
+    if(on_game) player.decreaseSize();
+    else player.increaseSize();
     player.move();
     player.draw(ctx, 'rgb(255,255,255)');
 

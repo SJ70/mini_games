@@ -22,18 +22,15 @@ class Dot{
     increaseSize(){
         if(this.size<this.MaxSize) this.size += this.SizeTolerance;
     }
-
-    draw(ctx, color){
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-        ctx.fill();
-    }
+    
 
     draw(ctx, color, r, c){
         ctx.fillStyle = color;
         ctx.beginPath();
-        ctx.arc(r, c, this.size, 0, Math.PI*2);
+        switch(arguments.length){
+            case 2 : ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); break;
+            case 4 : ctx.arc(r, c, this.size, 0, Math.PI*2); break;
+        }
         ctx.fill();
     }
 }

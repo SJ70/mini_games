@@ -5,9 +5,11 @@ export class Player extends Dot{
     constructor(canvas, x, y){
         super(canvas, x, y);
         this.speed = canvas.diag/5000;
+        this.x_dest=0;
+        this.y_dest=0;
     }
     
-    setPos(x,y){
+    setDestPos(x,y){
         this.x_dest=x;
         this.y_dest=y;
     }
@@ -15,7 +17,7 @@ export class Player extends Dot{
     move(){
         let dx = this.x_dest - this.x;
         let dy = this.y_dest - this.y;
-        let d = Math.sqrt( dx*dx + dy*dy );
+        let d = Number(Math.sqrt( dx*dx + dy*dy ));
 
         if(d < this.speed){
             this.x = this.x_dest;
