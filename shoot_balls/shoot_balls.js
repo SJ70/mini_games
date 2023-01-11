@@ -1,6 +1,8 @@
 import CircleEffector from '../essential/CircleEffector.js';
 import Score from '../essential/Score.js';
 import { canvasResize } from '../essential/Canvas.js';
+import MenuButton from '../essential/MenuButton.js';
+
 import Ball from './Ball.js'
 import Cannon from './Cannon.js'
 import CannonBall from './CannonBall.js'
@@ -12,9 +14,14 @@ export function shoot_balls(){
 
     let cannon = new Cannon(canvas);
 
+    canvas.page = 'shoot_balls';
     let on_game = false;
     let circle = new CircleEffector(canvas,'rgb(15,15,15)',100);
     let score = new Score(canvas, 'rgba(120,120,120,0.2)', 'rgba(250,250,250,0.1)');
+    let menu_button = new MenuButton(canvas,ctx,'rgba(120,120,120,0.5)');
+
+    let balls = [];
+    let cannonBalls = [];
 
     canvas.onclick = function(event){
         const x = event.clientX - ctx.canvas.offsetLeft;
@@ -28,23 +35,20 @@ export function shoot_balls(){
                 cannonBalls.push(new CannonBall(canvas,x,y,cannon.getAngle()));
             }
         }
+        menu_button.checkClick(x,y);
     }
-
     canvas.onmousemove = function(event){
-        const mouse_x = event.clientX - ctx.canvas.offsetLeft;
-        const mouse_y = event.clientY - ctx.canvas.offsetTop;
-        cannon.setPos(mouse_x,mouse_y);
-        score.setDestPos(mouse_x,mouse_y);
+        const x = event.clientX - ctx.canvas.offsetLeft;
+        const y = event.clientY - ctx.canvas.offsetTop;
+        cannon.setPos(x,y);
+        score.setDestPos(x,y);
     }
-
     window.onresize = function(){
         gameover();
         canvasResize(canvas);
         circle.resize(canvas);
+        menu_button.resize();
     }
-
-    let balls = [];
-    let cannonBalls = [];
 
     function gamestart(){
         on_game = true;
@@ -57,16 +61,22 @@ export function shoot_balls(){
             balls[j].setDestroyed(true);
         }
     }
-    function Run(){
+
+    run();
+    function run(){
         resetCanvas();
-        console.log(1)
         runCannonBalls();
         if(!on_game) runBalls();
         runCannon();
+        runCircle();
         runScore();
-        spawnBall();
+        menu_button.draw();
+        if(on_game) spawnBall();
         if(on_game) runBalls();
-        requestAnimationFrame(Run);
+
+        if(canvas.page != 'shoot_balls') return;
+        console.log("shoot_balls")
+        requestAnimationFrame(run);
     }
     function resetCanvas(){
         ctx.fillStyle = "rgb(250,250,250)";
@@ -103,18 +113,14 @@ export function shoot_balls(){
         });
     }
     function runCannon(){
-        if(on_game) circle.decreaseSize();
-        else circle.increaseSize();
         cannon.decreaseDelay();
         cannon.draw(ctx,canvas);
-        circle.draw(ctx,canvas.width,canvas.height);
     }
     let _spawnRate = 60;
     let _spawnCounter = 0;
     const _maxSpawnRate = 60;
     const _minSpawnRate = 20;
     function spawnBall(){
-        if(!on_game) return;
         if(++_spawnCounter >= _spawnRate){
             _spawnCounter = 0;
             balls.push(new Ball(canvas));
@@ -123,12 +129,16 @@ export function shoot_balls(){
             else if(_spawnRate<_minSpawnRate) _spawnRate = _minSpawnRate;
         }
     }
+    function runCircle(){
+        if(on_game) circle.decreaseSize();
+        else circle.increaseSize();
+        circle.draw(ctx,canvas.width,canvas.height);
+    }
     function runScore(){
         score.move();
         score.draw(ctx, canvas, 1, 1);
         score.draw_ClickToStart(ctx, canvas, 1, 1);
     }
-    Run();
 
 }
 export default shoot_balls;
