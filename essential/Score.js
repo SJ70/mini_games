@@ -9,6 +9,7 @@ class Score{
         this.color1 = color1;
         this.color2 = color2;
         this.mouse = new MouseFollower(canvas, 10000);
+        this.mouse.setPos(canvas.width/2,-canvas.height*100);
     }
 
     setDestPos(x,y){
