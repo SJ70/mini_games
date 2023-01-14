@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
     <canvas id="sandbox"></canvas>
-    <script type="module" src="./shoot_balls.js">shoot_balls()</script>
+    <script type="module">
+        import shoot_balls from './shoot_balls.js'
+        shoot_balls();
+    </script>
 </body>
 </html>
 <!-- README.md에서의 실행만을 위한 파일입니다 -->
