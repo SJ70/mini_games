@@ -1,6 +1,6 @@
 import CircleEffector from '../essential/CircleEffector.js';
 import Score from '../essential/Score.js';
-import { canvasResize } from '../essential/Canvas.js';
+import { canvasResize } from '../essential/canvasResize.js';
 import MenuButton from '../essential/MenuButton.js';
 
 import Ball from './Ball.js'

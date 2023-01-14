@@ -1,7 +1,7 @@
 import CircleEffector from '../essential/CircleEffector.js';
 import MouseFollower from '../essential/MouseFollower.js';
 import Score from '../essential/Score.js';
-import { canvasResize } from '../essential/Canvas.js';
+import { canvasResize } from '../essential/canvasResize.js';
 import MenuButton from '../essential/MenuButton.js';
 
 import RectInsider from './RectInsider.js';
