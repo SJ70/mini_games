@@ -5,9 +5,11 @@ class Score{
     color1 = 'white';
     color2 = 'black';
 
-    constructor(canvas, color1, color2){
+    constructor(canvas, ctx, color1, color2){
         this.color1 = color1;
         this.color2 = color2;
+        this.canvas = canvas;
+        this.ctx = ctx;
         this.mouse = new MouseFollower(canvas, 10000);
         this.mouse.setPos(canvas.width/2,-canvas.height*100);
     }
@@ -25,33 +27,33 @@ class Score{
     setScore(score){
         this.score=score;
     }
-    draw(ctx, canvas, followMouseX, followMouseY){
+    draw(followMouseX, followMouseY){
 
-        ctx.font = canvas.area*0.3 +'px Arial';
-        ctx.fillStyle = this.color1;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
+        this.ctx.font = this.canvas.area*0.3 +'px Arial';
+        this.ctx.fillStyle = this.color1;
+        this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'middle';
     
-        this.x = canvas.width/2 - followMouseX * (canvas.width/2 - this.mouse.getX()) * 0.05;
-        this.y = canvas.height/2 - followMouseY * (canvas.height/2 - this.mouse.getY()) * 0.05;
+        this.x = this.canvas.width/2 - followMouseX * (this.canvas.width/2 - this.mouse.getX()) * 0.05;
+        this.y = this.canvas.height/2 - followMouseY * (this.canvas.height/2 - this.mouse.getY()) * 0.05;
        
-        ctx.save();
-        ctx.fillText(this.score, this.x, this.y);
-        ctx.restore();
+        this.ctx.save();
+        this.ctx.fillText(this.score, this.x, this.y);
+        this.ctx.restore();
     }
 
-    draw_ClickToStart(ctx, canvas, followMouseX, followMouseY){
-        ctx.font = canvas.area*0.08 +'px Arial';
-        ctx.fillStyle = this.color2;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'top';
+    draw_ClickToStart(followMouseX, followMouseY){
+        this.ctx.font = this.canvas.area*0.08 +'px Arial';
+        this.ctx.fillStyle = this.color2;
+        this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'top';
     
-        this.x = canvas.width/2 - followMouseX * (canvas.width/2 - this.mouse.getX()) * 0.1;
-        this.y = canvas.height/5*3 - followMouseY * (canvas.height/2 - this.mouse.getY()) * 0.1;
+        this.x = this.canvas.width/2 - followMouseX * (this.canvas.width/2 - this.mouse.getX()) * 0.1;
+        this.y = this.canvas.height/5*3 - followMouseY * (this.canvas.height/2 - this.mouse.getY()) * 0.1;
         
-        ctx.save();
-        ctx.fillText("Click to Start", this.x, this.y);
-        ctx.restore();
+        this.ctx.save();
+        this.ctx.fillText("Click to Start", this.x, this.y);
+        this.ctx.restore();
     }
 }
 

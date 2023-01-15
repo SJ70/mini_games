@@ -18,3 +18,5 @@
 
 > Score.js  
 > 게임 실행 시 점수 표기가 화면 밖에서부터 나타나는 애니메이션 구현
+>
+> 기존에는 메소드 실행 시마다 canvas와 ctx를 인수로 불러왔다. canvas와 ctx를 this.canvas와 this.ctx에 저장시켜 인수 호출을 줄였다.

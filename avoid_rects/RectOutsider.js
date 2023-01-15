@@ -8,41 +8,41 @@ export class RectOutsider extends Rect{
     angle = 0;
     spinAngle = -0.15;
     
-    constructor(canvas){
-        super();
-        this.speed = Math.floor((canvas.area/100));
+    constructor(canvas, ctx){
+        super(canvas, ctx);
+        this.speed = Math.floor((this.canvas.area/100));
         this.dx = this.speed;
-        this.size = canvas.area/20;
+        this.size = this.canvas.area/20;
     }
-    resize(canvas){
+    resize(){
         this.x=0;
         this.y=0;
-        this.speed = Math.floor((canvas.area/100));
+        this.speed = Math.floor((this.canvas.area/100));
         this.dx = this.speed;
         this.dy = 0;
-        this.size = canvas.area/20;
+        this.size = this.canvas.area/20;
     }
-    draw(ctx){
-        ctx.save();
-        ctx.strokeStyle = 'white';
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
-        ctx.strokeRect(0 - this.size/2, 0 - this.size/2, this.size, this.size);
-        ctx.restore();
+    draw(){
+        this.ctx.save();
+        this.ctx.strokeStyle = 'white';
+        this.ctx.translate(this.x, this.y);
+        this.ctx.rotate(this.angle);
+        this.ctx.strokeRect(0 - this.size/2, 0 - this.size/2, this.size, this.size);
+        this.ctx.restore();
     }
-    move(canvas){
+    move(){
         if(this.x<0){
             this.x=0;
             this.dx=0;
             this.dy=-this.speed;
         } 
-        if(this.x>canvas.width){
-            this.x=canvas.width;
+        if(this.x>this.canvas.width){
+            this.x=this.canvas.width;
             this.dx=0;
             this.dy=this.speed;
         } 
-        if(this.y>canvas.height){
-            this.y=canvas.height;
+        if(this.y>this.canvas.height){
+            this.y=this.canvas.height;
             this.dx=-this.speed;
             this.dy=0;
         } 

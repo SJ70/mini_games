@@ -1,5 +1,7 @@
 export class Rect{
-    constructor(){
+    constructor(canvas, ctx){
+        this.canvas = canvas;
+        this.ctx = ctx;
     }
     spin(){
         this.angle += this.spinAngle;  

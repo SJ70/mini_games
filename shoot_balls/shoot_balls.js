@@ -16,8 +16,9 @@ export function shoot_balls(){
 
     canvas.page = 'shoot_balls';
     let on_game = false;
-    let circle = new CircleEffector(canvas,'rgb(15,15,15)',100);
-    let score = new Score(canvas, 'rgba(120,120,120,0.2)', 'rgba(250,250,250,0.1)');
+    let circle = new CircleEffector(canvas, ctx,'rgb(15,15,15)',100);
+    circle.setPos(canvas.width, canvas.height);
+    let score = new Score(canvas, ctx, 'rgba(120,120,120,0.2)', 'rgba(250,250,250,0.1)');
     let menu_button = new MenuButton(canvas,ctx,'rgba(120,120,120,0.5)');
 
     let balls = [];
@@ -132,12 +133,12 @@ export function shoot_balls(){
     function runCircle(){
         if(on_game) circle.decreaseSize();
         else circle.increaseSize();
-        circle.draw(ctx,canvas.width,canvas.height);
+        circle.draw();
     }
     function runScore(){
         score.move();
-        score.draw(ctx, canvas, 1, 1);
-        score.draw_ClickToStart(ctx, canvas, 1, 1);
+        score.draw(1, 1);
+        score.draw_ClickToStart(1, 1);
     }
 
 }

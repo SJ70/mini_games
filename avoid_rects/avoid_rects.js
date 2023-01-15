@@ -13,14 +13,14 @@ export function avoid_rects(){
     canvasResize(canvas);
 
     let rects = [];
-    let rectEdge = new RectOutsider(canvas);
+    let rectEdge = new RectOutsider(canvas, ctx);
 
     canvas.page = 'avoid_rects';
     let on_game = false;
     // mouse + circle = player
-    let circle = new CircleEffector(canvas, 'rgb(255,255,255)', 100);
+    let circle = new CircleEffector(canvas, ctx, 'rgb(255,255,255)', 100);
     let mouse = new MouseFollower(canvas, 5000);
-    let score = new Score(canvas, 'rgba(135,135,135,0.2)', 'rgba(15,15,15,0.1)');
+    let score = new Score(canvas, ctx, 'rgba(135,135,135,0.2)', 'rgba(15,15,15,0.1)');
     let menu_button = new MenuButton(canvas, ctx, 'rgba(135,135,135,0.5)')
 
     canvas.onclick = function(event){
@@ -49,9 +49,9 @@ export function avoid_rects(){
     window.onresize = function(){
         gameover();
         canvasResize(canvas);
-        circle.resize(canvas);
+        circle.resize();
         menu_button.resize();
-        rectEdge.resize(canvas);
+        rectEdge.resize();
     }
     window.onload = function(){
         gameover();
@@ -76,9 +76,9 @@ export function avoid_rects(){
         ctx.fillRect(0,0,canvas.width,canvas.height);
     }
     function runRectEdge(){
-        rectEdge.move(canvas);
+        rectEdge.move();
         rectEdge.spin();
-        if(on_game) rectEdge.draw(ctx);
+        if(on_game) rectEdge.draw();
         if(rectEdge.isCrashed(mouse.getX(),mouse.getY())) gameover();
     }
     function runCircle(){
@@ -86,20 +86,20 @@ export function avoid_rects(){
         if(on_game) circle.decreaseSize();
         else circle.increaseSize();
         circle.setPos(mouse.getX(),mouse.getY());
-        circle.draw(ctx, mouse.getX(), mouse.getY());
+        circle.draw(mouse.getX(), mouse.getY());
     }
     function runScore(){
         score.move();
-        score.draw_ClickToStart(ctx, canvas, -1, -1);
-        score.draw(ctx, canvas, -1, -1);
+        score.draw_ClickToStart(-1, -1);
+        score.draw(-1, -1);
     }
     let _spawnCounter = 0;
     function runRects(){
         for(let i=0; i<rects.length; i++){
-            rects[i].move(canvas);
+            rects[i].move();
             rects[i].spin();
             rects[i].spawn();
-            rects[i].draw(ctx);
+            rects[i].draw();
             if(rects[i].isCrashed(mouse.getX(), mouse.getY())) gameover();
         }
     }
@@ -108,7 +108,7 @@ export function avoid_rects(){
             _spawnCounter++;
             if(_spawnCounter==60){
                 _spawnCounter=0;
-                rects.push(new RectInsider(canvas));
+                rects.push(new RectInsider(canvas, ctx));
                 score.addScore();
             }
         }

@@ -1,18 +1,21 @@
 export class CircleEffector{
     x = 0;
     y = 0;
-    constructor(canvas, color, sizeDivisor){
+    constructor(canvas, ctx, color, sizeDivisor){
+        this.canvas = canvas;
+        this.ctx = ctx;
+
         this.color = color;
         this.sizeDivisor = (arguments.length==2) ? 100 : sizeDivisor;
 
-        this.size = Math.round(canvas.area / this.sizeDivisor);
-        this.sizeTolerance = Math.ceil((canvas.diag-this.size)/15);
+        this.size = Math.round(this.canvas.area / this.sizeDivisor);
+        this.sizeTolerance = Math.ceil((this.canvas.diag-this.size)/15);
         this.sizeMultiple = 15;
     }
 
-    resize(canvas){
-        this.size = Math.round(canvas.area / this.sizeDivisor);
-        this.sizeTolerance = Math.ceil((canvas.diag-this.size)/15);
+    resize(){
+        this.size = Math.round(this.canvas.area / this.sizeDivisor);
+        this.sizeTolerance = Math.ceil((this.canvas.diag-this.size)/15);
     }
 
     setPos(x,y){
@@ -27,14 +30,14 @@ export class CircleEffector{
         if(this.sizeMultiple<15) this.sizeMultiple++;
     }
     
-    draw(ctx, r, c){
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
+    draw(x, y){
+        this.ctx.fillStyle = this.color;
+        this.ctx.beginPath();
         switch(arguments.length){
-            case 1 : ctx.arc(this.x, this.y, this.size + (this.sizeTolerance*this.sizeMultiple), 0, Math.PI*2); break;
-            case 3 : ctx.arc(r, c, this.size + (this.sizeTolerance*this.sizeMultiple), 0, Math.PI*2); break;
+            case 0 : this.ctx.arc(this.x, this.y, this.size + (this.sizeTolerance*this.sizeMultiple), 0, Math.PI*2); break;
+            case 2 : this.ctx.arc(x, y, this.size + (this.sizeTolerance*this.sizeMultiple), 0, Math.PI*2); break;
         }
-        ctx.fill();
+        this.ctx.fill();
     }
 }
 
