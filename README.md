@@ -28,12 +28,12 @@
 > - [실행](https://sj70.github.io/mini_games/shoot_balls/run.html)
 > - [자세히](/docs/shoot_balls.md#shoot_balls)
 
-### Menu
+### Select_Game
 
 > 게임을 선택하는 페이지
 >
 > - [실행](https://sj70.github.io/mini_games)
-> - [자세히](/docs/shoot_balls.md#select_game)
+> - [자세히](/docs/select_game.md#select_game)
 
 ### 날짜 별 변동사항
 
