@@ -2,7 +2,7 @@ import CircleEffector from '../essential/CircleEffector.js';
 import MouseFollower from '../essential/MouseFollower.js';
 import Score from '../essential/Score.js';
 import { canvasResize } from '../essential/canvasResize.js';
-import MenuButton from '../essential/MenuButton.js';
+import ReturnButton from '../essential/ReturnButton.js';
 
 import RectInsider from './RectInsider.js';
 import RectOutsider from './RectOutsider.js';
@@ -21,7 +21,7 @@ export function avoid_rects(){
     let circle = new CircleEffector(canvas, ctx, 'rgb(255,255,255)', 100);
     let mouse = new MouseFollower(canvas, 5000);
     let score = new Score(canvas, ctx, 'rgba(135,135,135,0.2)', 'rgba(15,15,15,0.1)');
-    let menu_button = new MenuButton(canvas, ctx, 'rgba(135,135,135,0.5)')
+    let return_button = new ReturnButton(canvas, ctx, 'rgba(135,135,135,0.5)')
 
     canvas.onclick = function(event){
         const x = event.clientX - ctx.canvas.offsetLeft;
@@ -29,7 +29,7 @@ export function avoid_rects(){
         if(!on_game){
             gamestart();
         }
-        menu_button.checkClick(x,y);
+        return_button.checkClick(x,y);
     }
     canvas.onmousemove = function(event){
         const x = event.clientX - ctx.canvas.offsetLeft;
@@ -50,7 +50,7 @@ export function avoid_rects(){
         gameover();
         canvasResize(canvas);
         circle.resize();
-        menu_button.resize();
+        return_button.resize();
         rectEdge.resize();
     }
     window.onload = function(){
@@ -62,7 +62,7 @@ export function avoid_rects(){
         resetCanvas();
         runRectEdge();
         runCircle();
-        menu_button.draw();
+        return_button.draw();
         runScore();
         runRects();
         addRects();

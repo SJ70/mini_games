@@ -1,16 +1,16 @@
-import { canvasResize } from './essential/canvasResize.js';
+import { canvasResize } from '../essential/canvasResize.js';
 
-import avoid_rects from './avoid_rects/avoid_rects.js';
-import shoot_balls from './shoot_balls/shoot_balls.js';
+import avoid_rects from '../avoid_rects/avoid_rects.js';
+import shoot_balls from '../shoot_balls/shoot_balls.js';
 
 export function menu(){
     const canvas = document.getElementById('sandbox');
     const ctx = canvas.getContext('2d');
     canvasResize(canvas);
-    canvas.page = 'menu';
+    canvas.page = 'select_game';
     
     canvas.onclick = function(event){
-        if(canvas.page=='menu'){
+        if(canvas.page=='select_game'){
             if(mouse_x<canvas.width/2){
                 avoid_rects();
             }
@@ -30,8 +30,8 @@ export function menu(){
     function run(){
         resetCanvas();
 
-        if(canvas.page!='menu') return;
-        console.log('menu');
+        if(canvas.page!='select_game') return;
+        console.log('select_game');
         requestAnimationFrame(run);
     }
     function resetCanvas(){

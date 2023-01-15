@@ -1,4 +1,4 @@
-# Menu
+# Select_Game
 
 게임을 선택하는 페이지
 
@@ -28,3 +28,6 @@
 > > if(canvas.page!='avoid_rects') return;
 > > requestAnimationFrame(run);
 > > ```
+> 메뉴 화면은 아직 제대로 구성되지 않았으며, 현재 임시의 단색의 회색 화면이다. 화면의 좌측을 누르면 avoid_rects가, 우측을 누르면 shoot_balls가 실행된다.  
+>
+> 각 게임에서 다시 게임 선택 페이지로 돌아오기 위한 뒤로가기 버튼 클래스를 구현하였다. [[자세히]](./essential.md/#20230111)  

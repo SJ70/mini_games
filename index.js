@@ -1,3 +1,3 @@
-import menu from './menu.js';
+import select_game from './select_game/select_game.js';
 
-menu();
+select_game();

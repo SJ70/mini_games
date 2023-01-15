@@ -1,7 +1,7 @@
 import CircleEffector from '../essential/CircleEffector.js';
 import Score from '../essential/Score.js';
 import { canvasResize } from '../essential/canvasResize.js';
-import MenuButton from '../essential/MenuButton.js';
+import ReturnButton from '../essential/ReturnButton.js';
 
 import Ball from './Ball.js'
 import Cannon from './Cannon.js'
@@ -19,7 +19,7 @@ export function shoot_balls(){
     let circle = new CircleEffector(canvas, ctx,'rgb(15,15,15)',100);
     circle.setPos(canvas.width, canvas.height);
     let score = new Score(canvas, ctx, 'rgba(120,120,120,0.2)', 'rgba(250,250,250,0.1)');
-    let menu_button = new MenuButton(canvas,ctx,'rgba(120,120,120,0.5)');
+    let return_button = new ReturnButton(canvas,ctx,'rgba(120,120,120,0.5)');
 
     let balls = [];
     let cannonBalls = [];
@@ -36,7 +36,7 @@ export function shoot_balls(){
                 cannonBalls.push(new CannonBall(canvas,x,y,cannon.getAngle()));
             }
         }
-        menu_button.checkClick(x,y);
+        return_button.checkClick(x,y);
     }
     canvas.onmousemove = function(event){
         const x = event.clientX - ctx.canvas.offsetLeft;
@@ -48,7 +48,7 @@ export function shoot_balls(){
         gameover();
         canvasResize(canvas);
         circle.resize(canvas);
-        menu_button.resize();
+        return_button.resize();
     }
 
     function gamestart(){
@@ -71,7 +71,7 @@ export function shoot_balls(){
         runCannon();
         runCircle();
         runScore();
-        menu_button.draw();
+        return_button.draw();
         if(on_game) spawnBall();
         if(on_game) runBalls();
 

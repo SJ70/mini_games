@@ -1,6 +1,6 @@
-import menu from '../menu.js';
+import select_game from '../select_game/select_game.js';
 
-export class MenuButton{
+export class ReturnButton{
 
     constructor(canvas,ctx,color){
         this.canvas = canvas;
@@ -26,8 +26,8 @@ export class MenuButton{
 
     checkClick(x,y){
         if( (x >= this.x) && (x <= this.x+this.x) && (y >= this.x) && (y <= this.x+this.x) ){
-            menu();
+            select_game();
         }
     }
 }
-export default MenuButton;
+export default ReturnButton;
