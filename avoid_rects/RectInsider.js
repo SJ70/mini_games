@@ -23,6 +23,8 @@ export class RectInsider extends Rect{
         this.ctx.translate(this.x, this.y);
         this.ctx.rotate(this.angle);
         this.ctx.strokeRect(0 - this.current_size/2, 0 - this.current_size/2, this.current_size, this.current_size);
+        this.ctx.fillStyle = 'hsla('+this.color+',100%,80%,'+this.opacity*0.1+'%)';
+        this.ctx.fillRect(0 - this.current_size/2, 0 - this.current_size/2, this.current_size, this.current_size);
         this.ctx.restore();
     }
     move(){

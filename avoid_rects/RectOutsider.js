@@ -28,6 +28,8 @@ export class RectOutsider extends Rect{
         this.ctx.translate(this.x, this.y);
         this.ctx.rotate(this.angle);
         this.ctx.strokeRect(0 - this.size/2, 0 - this.size/2, this.size, this.size);
+        this.ctx.fillStyle = 'rgba(255,255,255,0.1)'
+        this.ctx.fillRect(0 - this.size/2, 0 - this.size/2, this.size, this.size);
         this.ctx.restore();
     }
     move(){
