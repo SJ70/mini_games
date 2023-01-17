@@ -10,6 +10,7 @@
 
 - [Avoid_Rects](#avoid_rects)
 - [Shoot_Balls](#shoot_balls)
+- [Bounce_Ball](#bounce_ball)
 - [Menu](#menu)
 - [날짜 별](#날짜-별)
 
@@ -29,6 +30,13 @@
 > - [실행](https://sj70.github.io/mini_games/shoot_balls/run.html)
 > - [자세히](/docs/shoot_balls.md#shoot_balls)
 
+### Bounce_Ball
+
+> 바닥이 계속 변하는 공간에서 공을 오랫동안 튕기는 게임
+>
+> - [실행](https://sj70.github.io/mini_games/bounce_ball/run.html)
+> - [자세히](/docs/bounce_ball.md#bounce_ball)
+
 ### Select_Game
 
 > 게임을 선택하는 페이지
@@ -38,10 +46,13 @@
 
 ### 날짜 별
 
+> **[Avoid_Rects](./docs/avoid_rects.md) 개발**
 > - 2023.01.02.
 >   - [[Avoid_Rects]](./docs/avoid_rects.md#20230102)
 > - 2023.01.03.
 >   - [[Avoid_Rects]](./docs/avoid_rects.md#20230103)
+>
+> **[Shoot_Balls](./docs/shoot_balls.md) 개발**
 > - 2023.01.05.
 >   - [[Shoot_Balls]](./docs/shoot_balls.md#20230105)
 > - 2023.01.06.
@@ -56,6 +67,8 @@
 >   - [[Avoid_Rects]](./docs/avoid_rects.md#20230110)
 >   - [[Shoot_Balls]](./docs/shoot_balls.md#20230110)
 >   - [[Essential]](./docs/essential.md#20230110)
+>
+> **게임 기본 틀 구성 및 모듈화**
 > - 2023.01.11.
 >   - [[Avoid_Rects]](./docs/avoid_rects.md#20230111)
 >   - [[Shoot_Balls]](./docs/shoot_balls.md#20230111)
@@ -68,3 +81,8 @@
 >   - [[Avoid_Rects]](./docs/avoid_rects.md#20230117)
 >   - [[Shoot_Balls]](./docs/shoot_balls.md#20230117)
 >   - [[Essential]](./docs/essential.md#20230117)
+>
+> **[Bounce_Ball](./docs/bounce_ball.md) 개발**
+> - 2023.01.18.
+>   - [[Bounce_Ball]](./docs/bounce_ball.md#20230118)
+>   - [[Essential]](./docs/essential.md#20230118)
