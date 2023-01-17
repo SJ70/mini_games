@@ -16,12 +16,12 @@ export class Game{
         this.page = page;
         this.canvas.page = page;
 
+        canvasResize(this.canvas);
         this.circle = new CircleEffector(this.canvas, this.ctx, CircleColor);
         this.return_button = new ReturnButton(this.canvas, this.ctx, 'rgba('+ScoreColor+',0.4)')
         this.score = new Score(this.canvas, this.ctx, 'rgba('+ScoreColor+',0.2)');
         this.clickToStart = new ClickToStart(this.canvas, this.ctx, 'rgba('+BackgroundColor+',0.1)');
         this.BackgroundColor = 'rgb('+BackgroundColor+')';
-        canvasResize(this.canvas);
     }
 
     // override when needed

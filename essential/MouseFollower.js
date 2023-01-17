@@ -1,7 +1,6 @@
 export class MouseFollower{
-
     constructor(canvas, speedDivisor, x, y){
-        this.speed = canvas.area/speedDivisor;
+        this.speed = canvas.area / speedDivisor;
         this.setPos(x,y);
     }
 

@@ -13,8 +13,7 @@ export class Text{
         this.ctx = ctx;
         this.color = color;
         // 마우스를 따라오는 비율값
-        this.mouse = new MouseFollower(canvas, 10000);
-        this.mouse.setPos(this.canvas.width/2, -this.canvas.height*100);
+        this.mouse = new MouseFollower(this.canvas, 10000, this.canvas.width/2, -this.canvas.height*100);
     }
 
     setFollowMouse(x,y){
