@@ -22,7 +22,7 @@ export function shoot_balls(){
         if(game.on_game){
             if(cannon.isReadyToShot()){
                 cannon.resetDelay();
-                cannonBalls.push(new CannonBall(canvas, ctx, game.mouse_x, game.mouse_y, cannon.getAngle()));
+                cannonBalls.push(new CannonBall(canvas, ctx, game.circle.color, game.mouse_x, game.mouse_y, cannon.getAngle()));
             }
         }
     }
@@ -58,7 +58,7 @@ export function shoot_balls(){
         if(game.on_game) spawnBall();
         if(game.on_game) runBalls();
 
-        if(canvas.page != 'shoot_balls') return;
+        if(!game.isOnPage()) return;
         console.log("shoot_balls")
         requestAnimationFrame(run);
     }

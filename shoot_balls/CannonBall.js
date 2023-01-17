@@ -1,8 +1,9 @@
 export class CannonBall{
 
-    constructor(canvas,ctx,x,y,angle){
+    constructor(canvas,ctx,color,x,y,angle){
         this.canvas = canvas;
         this.ctx = ctx;
+        this.color = color;
         this.x = canvas.width;
         this.y = canvas.height;
         this.dx = x - this.x;
@@ -21,7 +22,7 @@ export class CannonBall{
         this.ctx.save();
         this.ctx.translate(this.x, this.y);
         this.ctx.beginPath();
-        this.ctx.fillStyle = '#151515';
+        this.ctx.fillStyle = this.color;
         this.ctx.rotate(this.angle);
         this.ctx.scale(1.5,1);
         this.ctx.arc(0,0,this.size,0,Math.PI*2);
