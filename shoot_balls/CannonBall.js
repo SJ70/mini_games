@@ -1,6 +1,8 @@
 export class CannonBall{
 
-    constructor(canvas,x,y,angle){
+    constructor(canvas,ctx,x,y,angle){
+        this.canvas = canvas;
+        this.ctx = ctx;
         this.x = canvas.width;
         this.y = canvas.height;
         this.dx = x - this.x;
@@ -15,16 +17,16 @@ export class CannonBall{
         this.x += this.speed * (this.dx/d);
         this.y += this.speed * (this.dy/d);
     }
-    draw(ctx){
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.beginPath();
-        ctx.fillStyle = '#151515';
-        ctx.rotate(this.angle);
-        ctx.scale(1.5,1);
-        ctx.arc(0,0,this.size,0,Math.PI*2);
-        ctx.fill();
-        ctx.restore();
+    draw(){
+        this.ctx.save();
+        this.ctx.translate(this.x, this.y);
+        this.ctx.beginPath();
+        this.ctx.fillStyle = '#151515';
+        this.ctx.rotate(this.angle);
+        this.ctx.scale(1.5,1);
+        this.ctx.arc(0,0,this.size,0,Math.PI*2);
+        this.ctx.fill();
+        this.ctx.restore();
     }
     getPosAndSize(){
         return [this.x,this.y,this.size];
