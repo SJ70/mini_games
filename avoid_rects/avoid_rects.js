@@ -10,6 +10,7 @@ export function avoid_rects(){
     let game = new Game(canvas, ctx, 'avoid_rects', '#FFFFFF', '135,135,135', '15,15,15');
     game.score.setFollowMouse(-0.05, -0.05);
     game.clickToStart.setFollowMouse(-0.1, -0.1);
+    game.resize();
 
     let rects = [];
     let rectEdge = new RectOutsider(canvas, ctx);
@@ -41,9 +42,7 @@ export function avoid_rects(){
         game.resetCanvas();
         runRectEdge();
         player.move(game.mouse_x, game.mouse_y);
-        game.runCircle(player.x, player.y);
-        game.return_button.draw();
-        game.runScore();
+        game.drawEssential(player.x, player.y);
         runRects();
         addRects();
 

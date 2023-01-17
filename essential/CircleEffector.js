@@ -1,3 +1,5 @@
+const MAX = 15;
+
 export class CircleEffector{
     constructor(canvas, ctx, color){
         this.canvas = canvas;
@@ -7,8 +9,8 @@ export class CircleEffector{
         this.sizeDivisor = 100;
 
         this.size = Math.round(this.canvas.area / this.sizeDivisor);
-        this.sizeTolerance = Math.ceil((this.canvas.diag-this.size)/15);
-        this.sizeMultiple = 15;
+        this.sizeTolerance = Math.ceil((this.canvas.diag-this.size)/MAX);
+        this.sizeMultiple = MAX;
     }
 
     setSizeDivisor(sizeDivisor){
@@ -17,14 +19,18 @@ export class CircleEffector{
 
     resize(){
         this.size = Math.round(this.canvas.area / this.sizeDivisor);
-        this.sizeTolerance = Math.ceil((this.canvas.diag-this.size)/15);
+        this.sizeTolerance = Math.ceil((this.canvas.diag-this.size)/MAX);
     }
 
     decreaseSize(){
         if(this.sizeMultiple>0) this.sizeMultiple--;
     }
     increaseSize(){
-        if(this.sizeMultiple<15) this.sizeMultiple++;
+        if(this.sizeMultiple<MAX) this.sizeMultiple++;
+    }
+
+    isSizeMax(){
+        return this.sizeMultiple==MAX;
     }
     
     draw(x, y){

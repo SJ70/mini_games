@@ -61,20 +61,27 @@ export class Game{
     isOnPage(){
         return this.canvas.page==this.page;
     }
-    runCircle(x,y){
+
+    resetCanvas(){
+        this.ctx.fillStyle = this.BackgroundColor;
+        this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+    }
+
+    drawEssential(x,y){
+        this.drawCircle(x,y);
+        this.drawText();
+        this.return_button.draw();
+    }
+    drawCircle(x,y){
         if(this.on_game) this.circle.decreaseSize();
         else this.circle.increaseSize();
         this.circle.draw(x,y);
     }
-    runScore(){
+    drawText(){
         this.score.move(this.mouse_x,this.mouse_y);
         this.score.draw();
         this.clickToStart.move(this.mouse_x,this.mouse_y);
         this.clickToStart.draw();
-    }
-    resetCanvas(){
-        this.ctx.fillStyle = this.BackgroundColor;
-        this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
     }
 
 }

@@ -10,6 +10,7 @@ export function shoot_balls(){
     let game = new Game(canvas, ctx, 'shoot_balls', '#151515', '120,120,120', '250,250,250');
     game.score.setFollowMouse(0.05, 0.05);
     game.clickToStart.setFollowMouse(0.1, 0.1);
+    game.resize();
 
     let cannon = new Cannon(canvas, ctx, game.circle.color);
     let balls = [];
@@ -52,9 +53,7 @@ export function shoot_balls(){
         runCannonBalls();
         if(!game.on_game) runBalls();
         runCannon();
-        game.runCircle(canvas.width, canvas.height);
-        game.runScore();
-        game.return_button.draw();
+        game.drawEssential(canvas.width, canvas.height);
         if(game.on_game) spawnBall();
         if(game.on_game) runBalls();
 
