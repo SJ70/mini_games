@@ -56,6 +56,8 @@ export class Game{
         canvasResize(this.canvas);
         this.circle.resize();
         this.return_button.resize();
+        this.mouse_x = this.canvas.width/2;
+        this.mouse_y = this.canvas.height/2;
     }
 
     isOnPage(){
