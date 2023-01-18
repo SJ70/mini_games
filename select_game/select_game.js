@@ -1,23 +1,17 @@
 import { canvasResize } from '../essential/canvasResize.js';
 
-import avoid_rects from '../avoid_rects/avoid_rects.js';
-import shoot_balls from '../shoot_balls/shoot_balls.js';
+import Games from './games.js';
 
-export function menu(){
+export function select_game(){
     const canvas = document.getElementById('sandbox');
     const ctx = canvas.getContext('2d');
     canvasResize(canvas);
     canvas.page = 'select_game';
+
+    let games = new Games(canvas, ctx);
     
     canvas.onclick = function(event){
-        if(canvas.page=='select_game'){
-            if(mouse_x<canvas.width/2){
-                avoid_rects();
-            }
-            else{
-                shoot_balls();
-            } 
-        }
+        games.launchGameFromPos(mouse_x,mouse_y);
     }
     let mouse_x;
     let mouse_y;
@@ -30,14 +24,16 @@ export function menu(){
     function run(){
         resetCanvas();
 
+        games.draw();
+
         if(canvas.page!='select_game') return;
         console.log('select_game');
         requestAnimationFrame(run);
     }
     function resetCanvas(){
-        ctx.fillStyle = "rgb(135,135,135)";
+        ctx.fillStyle = "rgb(0,0,0)";
         ctx.fillRect(0,0,canvas.width,canvas.height);
     }
 
 }
-export default menu;
+export default select_game;

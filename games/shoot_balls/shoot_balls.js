@@ -1,4 +1,4 @@
-import Game from '../essential/Game.js';
+import Game from '../../essential/Game.js';
 
 import Ball from './Ball.js'
 import Cannon from './Cannon.js'

@@ -1,5 +1,5 @@
-import Game from '../essential/Game.js';
-import MouseFollower from '../essential/MouseFollower.js';
+import Game from '../../essential/Game.js';
+import MouseFollower from '../../essential/MouseFollower.js';
 
 import RectInsider from './RectInsider.js';
 import RectOutsider from './RectOutsider.js';
