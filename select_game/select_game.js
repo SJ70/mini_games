@@ -1,6 +1,6 @@
 import { canvasResize } from '../essential/canvasResize.js';
 
-import Games from './games.js';
+import Games from './Games.js';
 
 export function select_game(){
     const canvas = document.getElementById('sandbox');
