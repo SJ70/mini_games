@@ -39,6 +39,10 @@ export class CircleEffector{
         this.ctx.arc(x, y, this.size + (this.sizeTolerance*this.sizeMultiple), 0, Math.PI*2);
         this.ctx.fill();
     }
+
+    setColor(color){
+        this.color = color;
+    }
 }
 
 export default CircleEffector;

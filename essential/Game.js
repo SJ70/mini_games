@@ -89,5 +89,9 @@ export class Game{
         this.clickToStart.draw();
     }
 
+    setBackgroundColor(color){
+        this.BackgroundColor = color;
+    }
+
 }
 export default Game;
