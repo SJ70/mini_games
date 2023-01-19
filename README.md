@@ -11,6 +11,7 @@
 - [Avoid_Rects](#avoid_rects)
 - [Shoot_Balls](#shoot_balls)
 - [Bounce_Ball](#bounce_ball)
+- [Jump_Ahead](#jump_ahead)
 - [Select_Game](#select_game)
 - [Essential](#essential)
 - [날짜 별](#날짜-별)
@@ -37,6 +38,13 @@
 >
 > - [실행](https://sj70.github.io/mini_games/games/bounce_ball/run.html)
 > - [자세히](/docs/bounce_ball.md#bounce_ball)
+
+# Jump_Ahead
+
+> 점프하여 플랫폼에 착지하는 게임
+>
+> - [실행](https://sj70.github.io/mini_games/games/jump_ahead/run.html)
+> - [자세히](/docs/jump_ahead.md#jump_ahead)
 
 ### Select_Game
 
