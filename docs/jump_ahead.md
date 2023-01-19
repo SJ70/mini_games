@@ -10,6 +10,12 @@
 
 <br/>
 
+### 기획
+
+> Nexlie의 *[점프킹](https://store.steampowered.com/app/1061090/Jump_King/?l=koreana)*에서 아이디어를 얻어 제작하게 되었다.  
+
+<br/>
+
 ## 2023.01.19.
 
 > **Player.js**
