@@ -11,6 +11,9 @@ class Score extends Text{
     setScore(score){
         this.text = score;
     }
+    getScore(){
+        return this.text;
+    }
 }
 
 export default Score;

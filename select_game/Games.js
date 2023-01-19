@@ -1,6 +1,7 @@
 import avoid_rects from '../games/avoid_rects/avoid_rects.js';
 import shoot_balls from '../games/shoot_balls/shoot_balls.js';
 import bounce_ball from '../games/bounce_ball/bounce_ball.js';
+import jump_ahead from '../games/jump_ahead/jump_ahead.js';
 
 export class Games{
 
@@ -11,6 +12,7 @@ export class Games{
             () => avoid_rects(),
             () => shoot_balls(),
             () => bounce_ball(),
+            () => jump_ahead(),
         ];
     }
 

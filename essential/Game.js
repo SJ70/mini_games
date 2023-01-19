@@ -60,6 +60,9 @@ export class Game{
         this.mouse_y = this.canvas.height/2;
     }
 
+    isPlaying(){
+        return this.on_game;
+    }
     isOnPage(){
         return this.canvas.page==this.page;
     }

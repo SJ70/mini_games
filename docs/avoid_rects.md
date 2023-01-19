@@ -78,19 +78,29 @@
 > > > 피타고라스의 공식을 응용하여 해결하였다.
 > > >
 > > > ```
-> > > move(){
-> > >   let dx = this.x_dest - this.x;
-> > >   let dy = this.y_dest - this.y;
-> > >   let d = Number(Math.sqrt( dx*dx + dy*dy ));
+> > > let dx = this.x_dest - this.x;
+> > > let dy = this.y_dest - this.y;
+> > > let d = Number(Math.sqrt( dx*dx + dy*dy ));
+> > > ```
+> >
+> > **문제**
+> >
+> > > 마우스에 가까워졌을 때 덜덜 떨리는 모습을 취한다.  
+> > > 이는 중학생 때 GameMaker를 이용해 게임을 만들 때도 경험했던 문제이다.
+> >
+> > **해결**
+> >
+> > > 속도가 남은 거리보다 크다면 발생하는 문제이다.  
+> > > 속도가 남은 거리보다 클 경우 목적지 좌표를 적용시키면 된다.
 > > >
-> > >   if(d < this.speed){
-> > >       this.x = this.x_dest;
-> > >       this.y = this.y_dest;
-> > >   }
-> > >   else{
-> > >       this.x += (dx>0?1:-1) * this.speed * Math.sqrt(d*d - dy*dy);
-> > >       this.y += (dy>0?1:-1) * this.speed * Math.sqrt(d*d - dx*dx);
-> > >   }
+> > > ```
+> > > if(d < this.speed){
+> > >     this.x = this.x_dest;
+> > >     this.y = this.y_dest;
+> > > }
+> > > else{
+> > >     this.x += (dx>0?1:-1) * this.speed * Math.sqrt(d*d - dy*dy);
+> > >     this.y += (dy>0?1:-1) * this.speed * Math.sqrt(d*d - dx*dx);
 > > > }
 > > > ```
 >
