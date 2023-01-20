@@ -7,6 +7,7 @@ export class Text{
     heightMultiplier = 0.5;
     followMouseX = 1;
     followMouseY = 1;
+    plusLv=0;
     plusX=0;
     plusY=0;
 
@@ -27,12 +28,21 @@ export class Text{
     }
 
     setPluePos(x,y){
-        this.plusX = x;
-        this.plusY = y;
+        this.plusX = this.canvas.width * x;
+        this.plusY = this.canvas.height * y;
     }
     
     setColor(color){
         this.color = color;
+    }
+
+    PlusLevel(onPlaying){
+        if(onPlaying && this.plusLv<100){
+            this.plusLv+=(100-this.plusLv)/10;
+        } 
+        if(!onPlaying && this.plusLv>0){
+            this.plusLv-=(this.plusLv)/10;
+        } 
     }
 
     draw(){
@@ -41,8 +51,8 @@ export class Text{
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'middle';
     
-        this.x = this.canvas.width * this.widthMultiplier - this.followMouseX * (this.canvas.width/2 - this.mouse.x) + this.plusX;
-        this.y = this.canvas.height * this.heightMultiplier - this.followMouseY * (this.canvas.height/2 - this.mouse.y) + this.plusY;
+        this.x = this.canvas.width * this.widthMultiplier - this.followMouseX * (this.canvas.width/2 - this.mouse.x) + this.plusX*(this.plusLv/100);
+        this.y = this.canvas.height * this.heightMultiplier - this.followMouseY * (this.canvas.height/2 - this.mouse.y) + this.plusY*(this.plusLv/100);
        
         this.ctx.save();
         this.ctx.fillText(this.text, this.x, this.y);

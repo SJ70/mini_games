@@ -13,6 +13,7 @@ export function light_switch(){
     let _light = true;
 
     game.score.setFollowMouse(0.04, 0.03);
+    game.score.setPluePos(0,-0.2);
     game.clickToStart.setFollowMouse(0.02, -0.015);
     game.circle.setSizeDivisor(10000);
 

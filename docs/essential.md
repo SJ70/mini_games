@@ -142,7 +142,21 @@
 
 > **Text.js**  
 > 텍스트의 색상을 변경하는 메소드를 추가하였다.  
-> 텍스트의 위치값에 추가 좌표값 및 추가 좌표값 설정 메소드를 넣어주었다.
+> 텍스트의 위치값에 추가 좌표값 및 추가 좌표값 설정 메소드를 넣어주었다.  
+> 해당 추가 좌표값에 레벨을 적용시켜 추가 좌표값을 얼마나 받을지를 설정하였다.  
+> 아래와 같은 수식으로 부드러운 움직임 또한 적용하였다.
+>
+> ```
+> PlusLevel(onPlaying){
+>     if(onPlaying && this.plusLv<100){
+>         this.plusLv+=(100-this.plusLv)/10;
+>     }
+>     if(!onPlaying && this.plusLv>0){
+>         this.plusLv-=(this.plusLv)/10;
+>     }
+> }
+>
+> ```
 >
 > **CircleEffector.js**
 > 색상을 변경하는 메소드를 추가하였다.

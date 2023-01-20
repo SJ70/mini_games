@@ -85,8 +85,10 @@ export class Game{
         this.circle.draw(x,y);
     }
     drawText(){
+        this.score.PlusLevel(this.isPlaying());
         this.score.move(this.mouse_x,this.mouse_y);
         this.score.draw();
+        this.clickToStart.PlusLevel(this.isPlaying());
         this.clickToStart.move(this.mouse_x,this.mouse_y);
         this.clickToStart.draw();
     }
