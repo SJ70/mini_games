@@ -5,7 +5,8 @@ import { _white_value, _black_value, _white, _black } from './colors.js';
 
 const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
-const MAX_SPAWN_RATE = 100;
+const MAX_SPAWN_RATE = 20;
+const MIN_SPAWN_RATE = 20;
 
 export function light_switch(){
     let game = new Game(canvas, ctx, 'light_switch', _black, '140,140,140', _white_value);
@@ -19,7 +20,9 @@ export function light_switch(){
     game.circle.setSizeDivisor(10000);
 
     canvas.onclick = function(){
-        game.click();
+        if(game.circle.isSizeMax()){
+            game.click();
+        }
     }
     canvas.onmousedown = function(){
         if(game.isPlaying()){
@@ -50,30 +53,29 @@ export function light_switch(){
     }
     game.resize();
 
-    let _spawn_rate = MAX_SPAWN_RATE;
+    let _spawn_rate = 0;
     let _time = _spawn_rate;
     function do_spawn_line(){
-        console.log(_spawn_rate);
         if(_time--<0){
-            _spawn_rate *= 0.999;
+            if(_spawn_rate>MIN_SPAWN_RATE) _spawn_rate -= (_spawn_rate-MIN_SPAWN_RATE)/50;
             _time = _spawn_rate;
             addLine();
         }
     }
 
     function addLine(){
-        let speedDivisor = 200;
+        let speedDivisor = (50 + (100 - game.score.getScore()*0.1)) * (Math.random()*0.5+0.5);
         let dir_tmp = Math.random()*4;
         let dir = (dir_tmp>3 ? 'up' : (dir_tmp>2 ? 'down' : (dir_tmp>1 ? 'left' : 'right')));
         let time = 100;
-        let light = Math.random()>0.5;
+        let light = (Math.random()<0.8) != ((lines.length>0)?(lines[lines.length-1].getLight()):(_light));
         lines.push(new Line(canvas, ctx, speedDivisor, dir, time, light));
     }
 
     function runLines(){
         for(let i=0; i<lines.length; i++){
             lines[i].move();
-            if(lines[i].isOnMiddle()){
+            if(game.isPlaying() && lines[i].isOnMiddle()){
                 if(lines[i].isVisible(_light)){
                     game.gameover();
                 }
@@ -85,6 +87,9 @@ export function light_switch(){
                 lines[i].draw();
             }
         }
+        while(lines.length>10){
+            lines.shift();
+        } 
     }
 
     run();

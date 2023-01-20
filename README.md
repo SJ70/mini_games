@@ -13,6 +13,7 @@ Html Canvas + Javascript 미니게임 모음집
 - [Shoot_Balls](#shoot_balls)
 - [Bounce_Ball](#bounce_ball)
 - [Jump_Ahead](#jump_ahead)
+- [Light_Switch](#light_switch)
 - [Select_Game](#select_game)
 - [Essential](#essential)
 - [날짜 별](#날짜-별)
@@ -46,6 +47,13 @@ Html Canvas + Javascript 미니게임 모음집
 >
 > - [실행](https://sj70.github.io/mini_games/games/jump_ahead/run.html)
 > - [자세히](/docs/jump_ahead.md#jump_ahead)
+
+### Light_Switch
+
+> 불을 켜고 끄며 장애물을 넘어 생존하는 게임
+>
+> - [실행](https://sj70.github.io/mini_games/games/light_switch/run.html)
+> - [자세히](/docs/light_switch.md#light_switch)
 
 ### Select_Game
 
@@ -112,3 +120,9 @@ Html Canvas + Javascript 미니게임 모음집
 >
 > - 2023.01.19.
 >   - [[Jump_Ahead]](./docs/jump_ahead.md#20230119)
+>
+> **[Light_Switch](./docs/light_switch.md) 개발**
+>
+> - 2023.01.20.
+>   - [[Light_Switch]](./docs/light_switch.md#20230120)
+>   - [[Essential]](./docs/essential.md#20230120)

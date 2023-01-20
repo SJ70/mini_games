@@ -24,8 +24,12 @@ export function draw_switch(canvas,ctx,_light){
         ctx.beginPath();
         ctx.arc(0,0,canvas.area*0.004,0,Math.PI*2);
         ctx.fill();
+        ctx.filter = 'blur('+canvas.area*0.002+'px)';
+        ctx.fill();
+        ctx.filter = 'blur(0px)';
 
         ctx.fillStyle = _light ? 'hsl(0,0%,90%)' : 'hsl(0,0%,15%)';
+        ctx.filter = 'blur('+canvas.area*0.0005+'px)';
         ctx.beginPath();
         ctx.arc(0,0,canvas.area*0.002,0,Math.PI*2);
         ctx.fill();

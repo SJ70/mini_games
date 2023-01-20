@@ -3,6 +3,7 @@ import { _white_value, _black_value, _white, _black } from './colors.js';
 export class Line{
     constructor(canvas, ctx, speedDivisor, dir, time, light){
         this.canvas = canvas;
+        let line_width = canvas.area/500;
         this.ctx = ctx;
         switch(dir){
             case 'up' :
@@ -11,7 +12,7 @@ export class Line{
                 this.dx = 0;
                 this.width = canvas.width;
                 this.speed = Math.ceil(canvas.height / speedDivisor);
-                this.height = 2;
+                this.height = line_width;
                 break;
             case 'left' :
             case 'right' :
@@ -19,7 +20,7 @@ export class Line{
                 this.dy = 0;
                 this.height = canvas.height;
                 this.speed = Math.ceil(canvas.width / speedDivisor);
-                this.width = 2;
+                this.width = line_width;
                 break;
         }
         switch(dir){
@@ -43,6 +44,10 @@ export class Line{
         this.light = light;
     }
 
+    getLight(){
+        return this.light;
+    }
+
     move(){
         this.x += this.dx;
         this.y += this.dy;
@@ -50,6 +55,10 @@ export class Line{
 
     draw(){
         this.ctx.fillStyle = this.light ? _white : _black;
+        this.ctx.save();
+        this.ctx.filter = 'blur('+this.canvas.area/500+'px)';
+        this.ctx.fillRect(this.x, this.y, this.width, this.height);
+        this.ctx.restore();
         this.ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 
