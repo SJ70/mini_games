@@ -31,6 +31,9 @@ export class Game{
     gameover(){
         this.gameover_essential();
     }
+    resize(){
+        this.resize_essential();
+    }
 
     gamestart_essential(){
         this.on_game = true;
@@ -39,7 +42,14 @@ export class Game{
     gameover_essential(){
         this.on_game = false;
     }
-
+    resize_essential(){
+        this.gameover();
+        canvasResize(this.canvas);
+        this.circle.resize();
+        this.return_button.resize();
+        this.mouse_x = this.canvas.width/2;
+        this.mouse_y = this.canvas.height/2;
+    }
     
     click(){
         if(!this.on_game){
@@ -50,14 +60,6 @@ export class Game{
     mousemove(event){
         this.mouse_x = event.clientX - this.ctx.canvas.offsetLeft;
         this.mouse_y = event.clientY - this.ctx.canvas.offsetTop;
-    }
-    resize(){
-        this.gameover();
-        canvasResize(this.canvas);
-        this.circle.resize();
-        this.return_button.resize();
-        this.mouse_x = this.canvas.width/2;
-        this.mouse_y = this.canvas.height/2;
     }
 
     isPlaying(){

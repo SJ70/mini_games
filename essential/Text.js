@@ -7,6 +7,8 @@ export class Text{
     heightMultiplier = 0.5;
     followMouseX = 1;
     followMouseY = 1;
+    plusX=0;
+    plusY=0;
 
     constructor(canvas, ctx, color){
         this.canvas = canvas;
@@ -24,14 +26,23 @@ export class Text{
         this.mouse.move(x,y);
     }
 
+    setPluePos(x,y){
+        this.plusX = x;
+        this.plusY = y;
+    }
+    
+    setColor(color){
+        this.color = color;
+    }
+
     draw(){
         this.ctx.font = this.canvas.area * this.fontSize +'px Arial';
         this.ctx.fillStyle = this.color;
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'middle';
     
-        this.x = this.canvas.width * this.widthMultiplier - this.followMouseX * (this.canvas.width/2 - this.mouse.x);
-        this.y = this.canvas.height * this.heightMultiplier - this.followMouseY * (this.canvas.height/2 - this.mouse.y);
+        this.x = this.canvas.width * this.widthMultiplier - this.followMouseX * (this.canvas.width/2 - this.mouse.x) + this.plusX;
+        this.y = this.canvas.height * this.heightMultiplier - this.followMouseY * (this.canvas.height/2 - this.mouse.y) + this.plusY;
        
         this.ctx.save();
         this.ctx.fillText(this.text, this.x, this.y);
