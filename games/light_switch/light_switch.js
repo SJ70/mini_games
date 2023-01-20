@@ -5,7 +5,7 @@ import { _white_value, _black_value, _white, _black } from './colors.js';
 
 const canvas = document.getElementById('sandbox');
 const ctx = canvas.getContext('2d');
-const MAX_SPAWN_RATE = 20;
+const MAX_SPAWN_RATE = 60;
 const MIN_SPAWN_RATE = 20;
 
 export function light_switch(){
