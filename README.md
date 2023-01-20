@@ -1,6 +1,7 @@
 # Mini_Games
 
-외부 라이브러리를 사용하지 않은 Javascript 게임들의 모음집
+이미지, 외부 라이브러리 등을 사용하지 않은  
+Html Canvas + Javascript 미니게임 모음집
 
 - [실행](https://sj70.github.io/mini_games)
 
