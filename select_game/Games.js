@@ -2,6 +2,7 @@ import avoid_rects from '../games/avoid_rects/avoid_rects.js';
 import shoot_balls from '../games/shoot_balls/shoot_balls.js';
 import bounce_ball from '../games/bounce_ball/bounce_ball.js';
 import jump_ahead from '../games/jump_ahead/jump_ahead.js';
+import light_switch from '../games/light_switch/light_switch.js';
 
 export class Games{
 
@@ -13,6 +14,7 @@ export class Games{
             () => shoot_balls(),
             () => bounce_ball(),
             () => jump_ahead(),
+            () => light_switch(),
         ];
     }
 
