@@ -24,10 +24,14 @@ export class ReturnButton{
         this.ctx.restore();
     }
 
-    checkClick(x,y){
-        if( (x >= this.x) && (x <= this.x+this.x) && (y >= this.x) && (y <= this.x+this.x) ){
+    return(mouse_x, mouse_y){
+        if(this.isClicked(mouse_x, mouse_y)){
             select_game();
         }
+    }
+
+    isClicked(x,y){
+        return (x >= this.x) && (x <= this.x+this.x) && (y >= this.x) && (y <= this.x+this.x);
     }
 }
 export default ReturnButton;

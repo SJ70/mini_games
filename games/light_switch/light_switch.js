@@ -20,9 +20,7 @@ export function light_switch(){
     game.circle.setSizeDivisor(10000);
 
     canvas.onclick = function(){
-        if(game.circle.isSizeMax()){
-            game.click();
-        }
+        game.click();
     }
     canvas.onmousedown = function(){
         if(game.isPlaying()){

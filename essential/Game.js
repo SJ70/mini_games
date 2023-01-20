@@ -52,10 +52,10 @@ export class Game{
     }
     
     click(){
-        if(!this.on_game){
+        if(!this.on_game && this.circle.isSizeMax()){
             this.gamestart();
         }
-        this.return_button.checkClick(this.mouse_x, this.mouse_y);
+        this.return_button.return(this.mouse_x, this.mouse_y);
     }
     mousemove(event){
         this.mouse_x = event.clientX - this.ctx.canvas.offsetLeft;
