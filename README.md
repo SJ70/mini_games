@@ -39,7 +39,7 @@
 > - [실행](https://sj70.github.io/mini_games/games/bounce_ball/run.html)
 > - [자세히](/docs/bounce_ball.md#bounce_ball)
 
-# Jump_Ahead
+### Jump_Ahead
 
 > 점프하여 플랫폼에 착지하는 게임
 >
