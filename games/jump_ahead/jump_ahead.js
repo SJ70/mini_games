@@ -9,6 +9,7 @@ export function jump_ahead(){
 
     game.score.setFollowMouse(0.05, 0.05);
     game.clickToStart.setFollowMouse(0.1, 0.1);
+    game.clickToStart.setPluePos(0,-0.5);
     game.circle.setSizeDivisor(10000);
     game.resize();
 

@@ -49,4 +49,5 @@
 
 ### 2023.01.20.
 - **[Light_Switch](./light_switch.md#20230120) 개발**
-- [Essential](./essential.md#20230120) 확장
+- [Essential](./essential.md#20230120) 비주얼 업데이트
+- [Jump_Ahead](./jump_ahead.md#20230120) 적용
