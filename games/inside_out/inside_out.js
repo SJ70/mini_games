@@ -62,8 +62,8 @@ export function inside_out(){
             }
             spikes.reverse_random(player.getAngle(), player.getAngle()+_speed);
             if(spikes.isCrashed(player.getAngle(), player.getAngle()+_speed, player.reversed)){
-                // game.gameover();
-                console.log('crashed');
+                game.gameover();
+                // console.log('crashed');
             }
             player.draw();
         }
