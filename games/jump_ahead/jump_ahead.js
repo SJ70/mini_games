@@ -46,9 +46,6 @@ export function jump_ahead(){
         floor.push(new Floor(canvas,ctx,this.canvas.width*0.1,this.canvas.height*0.6,this.canvas.width*0.2));
         player.init();
     }
-    game.gameover = function(){
-        game.gameover_essential();
-    }
 
     function addFloor(){
         let tmp = canvas.width * (50 - game.score.getScore()) * 0.005;

@@ -43,12 +43,6 @@ export function light_switch(){
         lines = [];
         _spawn_rate = MAX_SPAWN_RATE;
     }
-    game.gameover = function(){
-        game.gameover_essential();
-    }
-    game.resize = function(){
-        game.resize_essential();
-    }
     game.resize();
 
     let _spawn_rate = 0;

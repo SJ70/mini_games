@@ -31,9 +31,6 @@ export class Game{
     gameover(){
         this.gameover_essential();
     }
-    resize(){
-        this.resize_essential();
-    }
 
     gamestart_essential(){
         this.on_game = true;
@@ -42,7 +39,8 @@ export class Game{
     gameover_essential(){
         this.on_game = false;
     }
-    resize_essential(){
+    
+    resize(){
         this.gameover();
         canvasResize(this.canvas);
         this.circle.resize();
