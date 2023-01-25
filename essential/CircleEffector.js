@@ -16,6 +16,9 @@ export class CircleEffector{
     setSizeDivisor(sizeDivisor){
         this.sizeDivisor = sizeDivisor;
     }
+    getCurrentSize(){
+        return this.size + this.sizeMultiple*this.sizeTolerance;
+    }
 
     resize(){
         this.size = Math.round(this.canvas.area / this.sizeDivisor);
@@ -31,6 +34,9 @@ export class CircleEffector{
 
     isSizeMax(){
         return this.sizeMultiple==MAX;
+    }
+    isSizeMin(){
+        return this.sizeMultiple==0;
     }
     
     draw(x, y){
