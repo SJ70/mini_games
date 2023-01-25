@@ -60,6 +60,14 @@ Html Canvas + Javascript 미니게임 모음집
 > - [실행](https://sj70.github.io/mini_games/games/light_switch/run.html)
 > - [자세히](/docs/light_switch.md#light_switch)
 
+## Inside_Out
+
+> 원 궤도의 안팎으로 위치를 바꾸며 장애물을 피하는 게임
+> <sup> #반응속도
+>
+> - [실행](https://sj70.github.io/mini_games/games/inside_out/run.html)
+> - [자세히](/docs/inside_out.md#inside_out)
+
 ## Select_Game
 
 > 게임을 선택하는 페이지

@@ -66,4 +66,5 @@
 
 ### 2023.01.25.
 
-- [Essential](./essential.md#20230120) 비주얼 업데이트
+- **[Inside_Out](./inside_out.md#20230125) 개발**
+- [Essential](./essential.md#20230125) 비주얼 업데이트
