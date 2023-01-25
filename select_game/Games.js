@@ -3,6 +3,7 @@ import shoot_balls from '../games/shoot_balls/shoot_balls.js';
 import bounce_ball from '../games/bounce_ball/bounce_ball.js';
 import jump_ahead from '../games/jump_ahead/jump_ahead.js';
 import light_switch from '../games/light_switch/light_switch.js';
+import inside_out from '../games/inside_out/inside_out.js';
 
 export class Games{
 
@@ -15,6 +16,7 @@ export class Games{
             () => bounce_ball(),
             () => jump_ahead(),
             () => light_switch(),
+            () => inside_out(),
         ];
     }
 
