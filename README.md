@@ -14,6 +14,7 @@ Html Canvas + Javascript 미니게임 모음집
 - [Bounce_Ball](#bounce_ball)
 - [Jump_Ahead](#jump_ahead)
 - [Light_Switch](#light_switch)
+- [Inside_Out](#inside_out)
 - [Select_Game](#select_game)
 - [Essential](#essential)
 - [날짜 별 변동사항](/docs/timeline.md)
