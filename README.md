@@ -23,6 +23,7 @@ Html Canvas + Javascript 미니게임 모음집
 ## Avoid_Rects
 
 > 화면을 배회하는 사각형들을 피하여 생존하는 게임
+> <sup> #마우스\_피하기
 >
 > - [실행](https://sj70.github.io/mini_games/games/avoid_rects/run.html)
 > - [자세히](/docs/avoid_rects.md#avoid_rects)
@@ -30,6 +31,7 @@ Html Canvas + Javascript 미니게임 모음집
 ## Shoot_Balls
 
 > 대포로 튀어오르는 공들을 맞추는 게임
+> <sup> #슈팅
 >
 > - [실행](https://sj70.github.io/mini_games/games/shoot_balls/run.html)
 > - [자세히](/docs/shoot_balls.md#shoot_balls)
@@ -37,6 +39,7 @@ Html Canvas + Javascript 미니게임 모음집
 ## Bounce_Ball
 
 > 바닥이 계속 변하는 공간에서 공을 오랫동안 튕기는 게임
+> <sup> #공튀기기
 >
 > - [실행](https://sj70.github.io/mini_games/games/bounce_ball/run.html)
 > - [자세히](/docs/bounce_ball.md#bounce_ball)
@@ -44,6 +47,7 @@ Html Canvas + Javascript 미니게임 모음집
 ## Jump_Ahead
 
 > 점프하여 플랫폼에 착지하는 게임
+> <sup> #Jump_King
 >
 > - [실행](https://sj70.github.io/mini_games/games/jump_ahead/run.html)
 > - [자세히](/docs/jump_ahead.md#jump_ahead)
@@ -51,6 +55,7 @@ Html Canvas + Javascript 미니게임 모음집
 ## Light_Switch
 
 > 불을 켜고 끄며 장애물을 넘어 생존하는 게임
+> <sup> #반응속도
 >
 > - [실행](https://sj70.github.io/mini_games/games/light_switch/run.html)
 > - [자세히](/docs/light_switch.md#light_switch)
