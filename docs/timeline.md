@@ -68,3 +68,14 @@
 
 - **[Inside_Out](./inside_out.md#20230125) 개발**
 - [Essential](./essential.md#20230125) 비주얼 업데이트
+
+### 2023.07.21.
+
+- 6개월만에 실행시켜보았는데 **게임 속도가 너무 빠르다.**  
+개발할 때와는 다른 PC환경에서 실행하였기에, PC의 사양에 따라 속도가 달라지는 것으로 보인다.  
+- 이러한 문제에 대해 간단히 알아보았다.  
+  현재 이 프로그램은 오브젝트의 이동을 **현재 좌표, 방향, 속도, 가속도** 를 통해 기준을 잡는다.  
+이러한 방식은 PC의 사양에 따라 다른 경험이 발생하게 된다.  
+문제를 해결하기 위해선 **시간**을 기준으로 해당 오브젝트의 다음 위치를 예측한다.  
+- [reference](https://www.developer.com/design/unity-game-programming-normalizing-game-speed-across-devices/)  
+![image](https://github.com/SJ70/mini_games/assets/50670730/deeef2a6-abb6-430b-a09f-fd2ac99bab20)  
