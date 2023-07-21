@@ -3,7 +3,11 @@
 이미지, 외부 라이브러리 등을 사용하지 않은  
 Html Canvas + Javascript 미니게임 모음집
 
-- [실행](https://sj70.github.io/mini_games)
+- [**실행**](https://sj70.github.io/mini_games)
+
+메인 페이지는 디자인이 구현되지 않은 상태이다.  
+각각의 색상을 클릭하면 해당하는 게임을 실행할 수 있다.  
+이하의 **Index**에서도 개별적으로 실행할 수 있다.  
 
 <br/>
 
