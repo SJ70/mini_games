@@ -43,13 +43,13 @@ export class Games{
         return {x,y,v,h};
     }
 
-    launchGameFromPos(mouse_x, mouse_y){
-        let index = Math.floor(mouse_y / (this.canvas.height / this.size()));
+    launchGameFromPos(mouse_y){
+        let index = this.getCurrentIndex(mouse_y);
         console.log(index)
         games[index].play();
     }
 
-    draw(){
+    draw(mouse_y){
         canvasResize(this.canvas);
 
         let v = this.canvas.width;
@@ -61,18 +61,22 @@ export class Games{
         this.ctx.textBaseline = "top";
 
         for(let i=0; i<this.size(); i++, y+=h){
+            let index = this.getCurrentIndex(mouse_y);
 
-            this.ctx.fillStyle = "hsl(0, 0%," + (15 + (2*i)) + "%)";
-            this.ctx.strokeStyle = "hsl(0, 0%," + (5 + (2*i)) + "%)";
+            this.ctx.fillStyle = (i == index) ? "hsl(0, 0%, 30%)" : "hsl(0, 0%, 20%)";
+            this.ctx.strokeStyle = "hsl(0, 0%, 10%)";
             this.ctx.fillRect(x,y,v,h);
             this.ctx.strokeRect(x,y,v,h);
 
-            this.ctx.fillStyle = "hsl(0, 0%, 90%)";
+            this.ctx.fillStyle = (i == index) ? "hsl(0, 0%, 100%)" : "hsl(0, 0%, 80%)";
             let title = games[i].title;
             this.ctx.fillText(title, x+15, y+15);
         }
     }
 
+    getCurrentIndex(mouse_y) {
+        return Math.floor(mouse_y / (this.canvas.height / this.size()));
+    }
 
 }
 export default Games;

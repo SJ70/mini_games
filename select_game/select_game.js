@@ -11,7 +11,7 @@ export function select_game(){
     let games = new Games(canvas, ctx);
     
     canvas.onclick = function(event){
-        games.launchGameFromPos(mouse_x,mouse_y);
+        games.launchGameFromPos(mouse_y);
     }
     let mouse_x;
     let mouse_y;
@@ -24,7 +24,7 @@ export function select_game(){
     function run(){
         resetCanvas();
 
-        games.draw();
+        games.draw(mouse_y);
 
         if(canvas.page!='select_game') return;
         console.log('select_game');
