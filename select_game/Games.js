@@ -53,7 +53,7 @@ export class Games{
         let x = 0;
         let y = 0;
 
-        this.ctx.font = "normal normal 30px sans-serif";
+        this.ctx.font = "normal normal " + (v/50) + "px sans-serif";
         this.ctx.textBaseline = "top";
 
         for(let i=0; i<this.size(); i++, y+=h){
