@@ -1,3 +1,5 @@
+import { canvasResize } from '../essential/canvasResize.js';
+
 import play_avoid_rects from '../games/avoid_rects/avoid_rects.js';
 import play_shoot_balls from '../games/shoot_balls/shoot_balls.js';
 import play_bounce_ball from '../games/bounce_ball/bounce_ball.js';
@@ -48,6 +50,8 @@ export class Games{
     }
 
     draw(){
+        canvasResize(this.canvas);
+
         let v = this.canvas.width;
         let h = this.canvas.height / this.size();
         let x = 0;
