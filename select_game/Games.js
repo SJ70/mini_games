@@ -63,7 +63,9 @@ export class Games{
         for(let i=0; i<this.size(); i++, y+=h){
 
             this.ctx.fillStyle = "hsl(0, 0%," + (15 + (3*i)) + "%)";
+            this.ctx.strokeStyle = "hsl(0, 0%," + (5 + (3*i)) + "%)";
             this.ctx.fillRect(x,y,v,h);
+            this.ctx.strokeRect(x,y,v,h);
 
             this.ctx.fillStyle = "hsl(0, 0%, 90%)";
             let title = games[i].title;
