@@ -29,8 +29,9 @@ export class Cannon{
         this.ctx.arc(this.canvas.width, this.canvas.height, this.canvas.area*0.04 + size_var/1.5, 0, Math.PI*2);
         this.ctx.fill();
     }
-    decreaseDelay(){
-        if(this.delay>0) this.delay--;
+    decreaseDelay(dt){
+        if(this.delay > 0) this.delay -= dt * 60;
+        if(this.delay < 0) this.delay = 0;
     }
     isReadyToShot(){
         return this.delay==0;

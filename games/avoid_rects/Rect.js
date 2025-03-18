@@ -3,8 +3,8 @@ export class Rect{
         this.canvas = canvas;
         this.ctx = ctx;
     }
-    spin(){
-        this.angle += this.spinAngle;  
+    spin(dt){
+        this.angle += this.spinAngle * dt * 60;
     }
     isCrashed(x, y){
         if(this.current_size > this.size) return false;

@@ -17,7 +17,7 @@ export class CircleEffector{
         this.sizeDivisor = sizeDivisor;
     }
     getCurrentSize(){
-        return this.size + this.sizeMultiple*this.sizeTolerance;
+        return Math.max(this.size + this.sizeMultiple * this.sizeTolerance, 0);
     }
 
     resize(){
@@ -25,11 +25,17 @@ export class CircleEffector{
         this.sizeTolerance = Math.ceil((this.canvas.diag-this.size)/MAX);
     }
 
-    decreaseSize(){
-        if(this.sizeMultiple>0) this.sizeMultiple--;
+    decreaseSize(dt){
+        if(this.sizeMultiple > 0) {
+            this.sizeMultiple -= dt * 60;
+            if(this.sizeMultiple < 0) this.sizeMultiple = 0;
+        }
     }
-    increaseSize(){
-        if(this.sizeMultiple<MAX) this.sizeMultiple++;
+    increaseSize(dt){
+        if(this.sizeMultiple < MAX) {
+            this.sizeMultiple += dt * 60;
+            if(this.sizeMultiple > MAX) this.sizeMultiple = MAX;
+        }
     }
 
     isSizeMax(){

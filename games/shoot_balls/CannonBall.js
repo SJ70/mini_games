@@ -13,10 +13,10 @@ export class CannonBall{
         this.speed = canvas.area/10;
     }
 
-    move(){
-        let d = Math.sqrt( this.dx*this.dx + this.dy*this.dy );
-        this.x += this.speed * (this.dx/d);
-        this.y += this.speed * (this.dy/d);
+    move(dt){
+        let d = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+        this.x += this.speed * (this.dx / d) * dt * 60;
+        this.y += this.speed * (this.dy / d) * dt * 60;
     }
     draw(){
         this.ctx.save();

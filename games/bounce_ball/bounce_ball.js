@@ -50,26 +50,31 @@ export function bounce_ball(){
         floor.push(new Floor(canvas, ctx, _floor_x, _floor_size, canvas.height*HEIGHT, _speed_level));
     }
 
+    let lastTime = performance.now();
+    
     run();
-    function run(){
+    function run(timestamp){
+        let dt = (timestamp - lastTime) / 1000;
+        lastTime = timestamp;
+        
         game.resetCanvas();
 
         if(game.on_game){
-            _speed_level += 0.002;
-            run_ball();
+            _speed_level += 0.002 * dt * 60;
+            run_ball(dt);
         }
 
-        run_floor();
+        run_floor(dt);
 
-        game.drawEssential(ball.x, ball.y - game.circle.size);
+        game.drawEssential(ball.x, ball.y - game.circle.size, dt);
 
         if(!game.isOnPage()) return;
         console.log("bounce_ball")
         requestAnimationFrame(run);
     }
 
-    function run_ball(){
-        ball.move(game.mouse_x, _speed_level);
+    function run_ball(dt){
+        ball.move(game.mouse_x, _speed_level, dt);
         
         if( ball.checkBounce(_floor_x, _floor_size, canvas.height*HEIGHT) || ( ball.is_out_of_map() && ball.checkBounce_x(_floor_x, _floor_size) )){
             ball.bounce();
@@ -81,9 +86,9 @@ export function bounce_ball(){
             game.gameover();
         }
     }
-    function run_floor(){
+    function run_floor(dt){
         for(let i=0; i<floor.length; i++){
-            floor[i].animate();
+            floor[i].animate(dt);
             floor[i].draw();
         }
         while(floor.length>0 && floor[0].isDisappeared()){

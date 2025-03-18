@@ -36,12 +36,12 @@ export class Player{
     do_power(){
         this._powering = true;
     }
-    powering(){
-        this.power++;
-        this.current_size_y -= this.size/2/_max_power;
-        this.current_size_x += this.size/2/_max_power;
-        this.current_color_s -= 0.25;
-        this.current_color_l -= 0.25;
+    powering(dt){
+        this.power += dt * 60;
+        this.current_size_y -= (this.size/2/_max_power) * dt * 60;
+        this.current_size_x += (this.size/2/_max_power) * dt * 60;
+        this.current_color_s -= 0.25 * dt * 60;
+        this.current_color_l -= 0.25 * dt * 60;
     }
     isPowering(){
         return (this._powering && this.power<_max_power);
@@ -57,12 +57,12 @@ export class Player{
         this.current_color_s = _color_s;
         this.current_color_l = _color_l;
     }
-    relationWith(floor){
+    relationWith(floor, dt){
         if(this.x+this.size/2 > floor.x && this.x-this.size/2 < floor.x+floor.size){
             if(this.y > floor.y){
                 return 'crashed';
             }
-            if(this.y == floor.y){
+            if(Math.abs(this.y - floor.y) < this.dy * dt + 1){
                 return 'landed';
             }
             if(this.y+this.dy > floor.y){
@@ -81,9 +81,9 @@ export class Player{
         return this._landed;
     }
     
-    move(){
-        this.y += this.dy;
-        this.dy += this.ddy;
+    move(dt){
+        this.y += this.dy * dt * 60;
+        this.dy += this.ddy * dt * 60;
     }
     draw(){
         this.ctx.fillStyle = 'hsl(' + this.current_color_h + ',' + this.current_color_s + '%,' + this.current_color_l + '%)';

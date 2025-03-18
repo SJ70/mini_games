@@ -80,3 +80,10 @@
 문제를 해결하기 위해선 **시간**을 기준으로 해당 오브젝트의 다음 위치를 예측한다.  
 - [reference](https://www.developer.com/design/unity-game-programming-normalizing-game-speed-across-devices/)  
 ![image](https://github.com/SJ70/mini_games/assets/50670730/deeef2a6-abb6-430b-a09f-fd2ac99bab20)  
+
+
+### 2025.03.19.
+
+- 주사율에 따라 게임 속도가 달라지는 현상 해결  
+오브젝트의 속도, 가속도, 각도 증감값, 크기 증감값 등 모든 가변 값에 **deltaTime** 적용  
+- 이를 적용하며 발생한 일부 버그 수정  

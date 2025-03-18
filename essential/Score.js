@@ -8,8 +8,10 @@ class Score extends Text{
         this.initialFontSize = this.fontSize;
     }
     //override
-    draw(){
-        if(this.sizeMultiplier>1) this.sizeMultiplier += (1-this.sizeMultiplier)/10;
+    draw(dt){
+        if(this.sizeMultiplier > 1) {
+            this.sizeMultiplier += (1 - this.sizeMultiplier) / 10 * dt * 60;
+        }
         this.fontSize = this.initialFontSize * this.sizeMultiplier;
 
         this.ctx.font = this.canvas.area * this.fontSize +'px Arial';

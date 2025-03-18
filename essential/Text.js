@@ -23,8 +23,8 @@ export class Text{
         this.followMouseX = x;
         this.followMouseY = y;
     }
-    move(x,y){
-        this.mouse.move(x,y);
+    move(x,y, dt){
+        this.mouse.move(x,y, dt);
     }
 
     setPluePos(x,y){
@@ -45,7 +45,7 @@ export class Text{
         } 
     }
 
-    draw(){
+    draw(dt){
         this.ctx.font = this.canvas.area * this.fontSize +'px Arial';
         this.ctx.fillStyle = this.color;
         this.ctx.textAlign = 'center';

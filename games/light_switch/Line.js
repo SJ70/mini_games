@@ -48,9 +48,9 @@ export class Line{
         return this.light;
     }
 
-    move(){
-        this.x += this.dx;
-        this.y += this.dy;
+    move(dt){
+        this.x += this.dx * dt * 60;
+        this.y += this.dy * dt * 60;
     }
 
     draw(){
@@ -62,8 +62,9 @@ export class Line{
         this.ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 
-    isOnMiddle(){
-        return (this.x==this.canvas.width/2 || this.y==this.canvas.height/2);
+    isOnMiddle(dt){
+        return (this.x - this.speed * dt * 60 < this.canvas.width/2) && (this.x >= this.canvas.width/2) 
+        || (this.y - this.speed * dt * 60 < this.canvas.height/2) && (this.y >= this.canvas.height/2) ;
     }
 
     isVisible(light){

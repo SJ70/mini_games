@@ -15,16 +15,17 @@ export class Floor{
         this.dx = this.canvas.width/50 * power * (dx/this.canvas.width);
     }
 
-    move(){
-        this.x -= this.dx;
-        this.dx *= 0.995;
+    move(dt){
+        this.x -= this.dx * dt * 60;
+        this.dx *= Math.pow(0.995, dt * 60);
     }
-    spawn(){
-        if(this.spawning<100){
-            this.spawning += this.spawning_d;
-            this.spawning_d *= 0.9;
-            if(this.spawning + this.spawning_d>100)
-            this.spawning=100;
+    
+    spawn(dt){
+        if(this.spawning < 100){
+            this.spawning += this.spawning_d * dt * 60;
+            this.spawning_d *= Math.pow(0.91, dt * 60);
+            if(this.spawning + this.spawning_d > 100)
+                this.spawning = 100;
         } 
     }
 
@@ -42,7 +43,7 @@ export class Floor{
     }
 
     isOutOfMap(){
-        return this.x+this.size<0;
+        return this.x + this.size < 0;
     }
 }
 export default Floor

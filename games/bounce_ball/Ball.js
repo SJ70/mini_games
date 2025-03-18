@@ -16,10 +16,10 @@ export class Ball{
         this.ddy = this.canvas.height/4000;
     }
 
-    move(mouse_x, _speed_level){
-        this.x += (mouse_x - this.x) * 0.03 * _speed_level;
-        this.y += this.dy * _speed_level;
-        this.dy += this.ddy * _speed_level;
+    move(mouse_x, _speed_level, dt){
+        this.x += (mouse_x - this.x) * 0.03 * _speed_level * dt * 60;
+        this.y += this.dy * _speed_level * dt * 60;
+        this.dy += this.ddy * _speed_level * dt * 60;
     }
 
     bounce(){

@@ -47,9 +47,10 @@ export function light_switch(){
 
     let _spawn_rate = 0;
     let _time = _spawn_rate;
-    function do_spawn_line(){
-        if(_time--<0){
-            if(_spawn_rate>MIN_SPAWN_RATE) _spawn_rate -= (_spawn_rate-MIN_SPAWN_RATE)/50;
+    function do_spawn_line(dt){
+        _time -= dt * 60;
+        if(_time < 0){
+            if(_spawn_rate > MIN_SPAWN_RATE) _spawn_rate -= (_spawn_rate - MIN_SPAWN_RATE) * dt * 1.2;
             _time = _spawn_rate;
             addLine();
         }
@@ -64,10 +65,10 @@ export function light_switch(){
         lines.push(new Line(canvas, ctx, speedDivisor, dir, time, light));
     }
 
-    function runLines(){
+    function runLines(dt){
         for(let i=0; i<lines.length; i++){
-            lines[i].move();
-            if(game.isPlaying() && lines[i].isOnMiddle()){
+            lines[i].move(dt);
+            if(game.isPlaying() && lines[i].isOnMiddle(dt)){
                 if(lines[i].isVisible(_light)){
                     game.gameover();
                 }
@@ -84,15 +85,19 @@ export function light_switch(){
         } 
     }
 
-    run();
-    function run(){
-        game.resetCanvas();
 
-        draw_switch(canvas,ctx,_light);
-        runLines();
-        if(game.isPlaying()) do_spawn_line();
+    let lastTime = performance.now();
+    run();
+    function run(timestamp){
+        let dt = (timestamp - lastTime) / 1000;
+        lastTime = timestamp;
+
+        game.resetCanvas();
+        draw_switch(canvas, ctx, _light);
+        runLines(dt);
+        if(game.isPlaying()) do_spawn_line(dt);
         
-        game.drawEssential(canvas.width/2, canvas.height/2);
+        game.drawEssential(canvas.width/2, canvas.height/2, dt);
 
         if(!game.isOnPage()) return;
         console.log("light_switch")

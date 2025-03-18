@@ -10,19 +10,19 @@ export class Floor{
         this.dy = (canvas.height-height)/20 * speed_level;
         this.spawning = true;
     }
-    animate(){
+    animate(dt){
         if(this.spawning){
             if(this.height <= this.y){
                 if(this.height > this.y-this.dy){
                     this.y = this.height;
                 }
                 else{
-                    this.y -= this.dy;
+                    this.y -= this.dy * dt * 60;
                 }
             }
         }
         else{
-            this.y += this.dy;
+            this.y += this.dy * dt * 60;
         }
     }
     draw(){

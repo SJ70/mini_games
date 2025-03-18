@@ -55,32 +55,35 @@ export function jump_ahead(){
         floor.push(new Floor(canvas,ctx,x,y,size));
     }
 
+    let lastTime = performance.now();
     run();
-    function run(){
+    function run(timestamp){
+        let dt = (timestamp - lastTime) / 1000;
+        lastTime = timestamp;
+
         game.resetCanvas();
 
         if(game.isPlaying()){
-            runGame();
+            runGame(dt);
         }
 
         drawPlayer();
         if(game.isPlaying()) drawFloors();
-        game.drawEssential(player.x, player.y);
+        game.drawEssential(player.x, player.y, dt);
 
         if(!game.isOnPage()) return;
-        console.log("jump_ahead")
+        console.log("jump_ahead");
         requestAnimationFrame(run);
     }
-    function runGame(){
+    function runGame(dt){
         if(!player.isLanded()){
-            player.move();
+            player.move(dt);
             for(let i=0; i<floor.length; i++){
-                floor[i].move();
+                floor[i].move(dt);
 
-                switch(player.relationWith(floor[i])){
+                switch(player.relationWith(floor[i], dt)){
                     case 'crashed':
                         for(let j=0; j<floor.length; j++){
-                            // if(i==j) continue; // 충돌한 벽만 조금 더 움직이는 버그
                             floor[j].reverseDir();
                         }
                         break;
@@ -94,8 +97,8 @@ export function jump_ahead(){
             }
         }
 
-        if(floor.length>0){
-            if(player.relationWith(floor[floor.length-1])=='landed'){
+        if(floor.length > 0){
+            if(player.relationWith(floor[floor.length - 1], dt) == 'landed'){
                 addFloor();
                 game.score.addScore();
             }
@@ -104,11 +107,11 @@ export function jump_ahead(){
             }
         }
         for(let i=0; i<floor.length; i++){
-            floor[i].spawn();
+            floor[i].spawn(dt);
         }
 
         if(player.isPowering()){
-            player.powering();
+            player.powering(dt);
         }
         if(player.isFallen()){
             game.gameover();

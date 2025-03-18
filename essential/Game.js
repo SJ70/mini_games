@@ -8,6 +8,7 @@ export class Game{
     mouse_x = 0;
     mouse_y = 0;
     on_game = false;
+    lastTime = performance.now();
 
     constructor(canvas, ctx, page, CircleColor, ScoreColor, BackgroundColor){
         this.canvas = canvas;
@@ -72,23 +73,23 @@ export class Game{
         this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
     }
 
-    drawEssential(x,y){
-        this.drawCircle(x,y);
-        this.drawText();
+    drawEssential(x,y, dt){
+        this.drawCircle(x,y, dt);
+        this.drawText(dt);
         this.return_button.draw();
     }
-    drawCircle(x,y){
-        if(this.on_game) this.circle.decreaseSize();
-        else this.circle.increaseSize();
+    drawCircle(x,y, dt){
+        if(this.on_game) this.circle.decreaseSize(dt);
+        else this.circle.increaseSize(dt);
         this.circle.draw(x,y);
     }
-    drawText(){
+    drawText(dt){
         this.score.PlusLevel(this.isPlaying());
-        this.score.move(this.mouse_x,this.mouse_y);
-        this.score.draw();
+        this.score.move(this.mouse_x,this.mouse_y, dt);
+        this.score.draw(dt);
         this.clickToStart.PlusLevel(this.isPlaying());
-        this.clickToStart.move(this.mouse_x,this.mouse_y);
-        this.clickToStart.draw();
+        this.clickToStart.move(this.mouse_x,this.mouse_y, dt);
+        this.clickToStart.draw(dt);
     }
 
     setBackgroundColor(color){

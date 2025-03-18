@@ -16,11 +16,11 @@ export class Ball{
         this.explode_dr = this.explode_r/3;
     }
 
-    move(){
-        this.x += this.dx;
-        if(this.x<0) this.dx*=-1;
-        this.y += this.dy;
-        this.dy -= this.ddy;
+    move(dt){
+        this.x += this.dx * dt * 60;
+        if(this.x<0) this.dx *= -1;
+        this.y += this.dy * dt * 60;
+        this.dy -= this.ddy * dt * 60;
     }
     draw(ctx, canvas){
         ctx.fillStyle = 'hsla('+this.color+',100%,80%,'+this.opacity+'%)';

@@ -27,11 +27,16 @@ export function NEW_GAME(){
         game.gameover_essential();
     }
 
+    let lastTime = performance.now();
+    
     run();
-    function run(){
+    function run(timestamp){
+        let dt = (timestamp - lastTime) / 1000;
+        lastTime = timestamp;
+
         game.resetCanvas();
 
-        game.drawEssential(ball.x, ball.y - game.circle.size);
+        game.drawEssential(ball.x, ball.y - game.circle.size, dt);
 
         if(!game.isOnPage()) return;
         console.log("NEW_GAME")

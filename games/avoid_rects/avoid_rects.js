@@ -31,54 +31,62 @@ export function avoid_rects(){
     game.gamestart = function(){
         game.gamestart_essential();
         _spawnCounter = 0;
+        lastTime = performance.now();
     }
     game.gameover = function(){
         game.gameover_essential();
         rects = [];
     }
 
-    run();
-    function run(){
+    let lastTime = performance.now();
+    let _spawnCounter = 0;
+    
+    function run(timestamp){
+        let dt = (timestamp - lastTime) / 1000;
+        lastTime = timestamp;
+
         game.resetCanvas();
-        runRectEdge();
-        player.move(game.mouse_x, game.mouse_y);
-        game.drawEssential(player.x, player.y);
-        runRects();
-        addRects();
+        runRectEdge(dt);
+        player.move(game.mouse_x, game.mouse_y, dt);
+        game.drawEssential(player.x, player.y, dt);
+        runRects(dt);
+        addRects(dt);
 
         if(!game.isOnPage()) return;
         console.log("avoid_rects")
         requestAnimationFrame(run);
     }
 
-    function runRectEdge(){
-        rectEdge.move();
-        rectEdge.spin();
+    function runRectEdge(dt){
+        rectEdge.move(dt);
+        rectEdge.spin(dt);
         if(game.on_game) rectEdge.draw();
         if(rectEdge.isCrashed(player.x, player.y)) game.gameover();
     }
 
-    function runRects(){
+    function runRects(dt){
         for(let i=0; i<rects.length; i++){
-            rects[i].move();
-            rects[i].spin();
-            rects[i].spawn();
+            rects[i].move(dt);
+            rects[i].spin(dt);
+            rects[i].spawn(dt);
             rects[i].draw();
             if(rects[i].isCrashed(player.x, player.y)){
                 game.gameover();
             }
         }
     }
-    let _spawnCounter = 0;
-    function addRects(){
+    
+    function addRects(dt){
         if(game.on_game){
-            _spawnCounter++;
-            if(_spawnCounter==60){
-                _spawnCounter=0;
+            _spawnCounter += dt * 60;
+            if(_spawnCounter >= 60){
+                _spawnCounter = 0;
                 rects.push(new RectInsider(canvas, ctx));
                 game.score.addScore();
             }
         }
     }
+    
+    requestAnimationFrame(run);
 }
 export default avoid_rects;

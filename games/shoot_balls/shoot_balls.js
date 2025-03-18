@@ -47,28 +47,34 @@ export function shoot_balls(){
         }
     }
 
+    let lastTime = performance.now();
+
     run();
-    function run(){
+
+    function run(timestamp){
+        let dt = (timestamp - lastTime) / 1000;
+        lastTime = timestamp;
+        
         game.resetCanvas();
-        runCannonBalls();
-        if(!game.on_game) runBalls();
-        runCannon();
-        game.drawEssential(canvas.width, canvas.height);
-        if(game.on_game) spawnBall();
-        if(game.on_game) runBalls();
+        runCannonBalls(dt);
+        if(!game.on_game) runBalls(dt);
+        runCannon(dt);
+        game.drawEssential(canvas.width, canvas.height, dt);
+        if(game.on_game) spawnBall(dt);
+        if(game.on_game) runBalls(dt);
 
         if(!game.isOnPage()) return;
         console.log("shoot_balls")
         requestAnimationFrame(run);
     }
-    function runCannonBalls(){
+    function runCannonBalls(dt){
         for(let i=0; i<cannonBalls.length; i++){
-            cannonBalls[i].move();
+            cannonBalls[i].move(dt);
             cannonBalls[i].draw(ctx);
         }
-        if(cannonBalls.length>0 && cannonBalls[0].isOutOfMap() == true) cannonBalls.shift();
+        if(cannonBalls.length > 0 && cannonBalls[0].isOutOfMap()) cannonBalls.shift();
     }
-    function runBalls(){
+    function runBalls(dt){
         for(let i=0; i<balls.length; i++){
             if(!balls[i].isDestroyed() && balls[i].isOutOfMap(canvas)){
                 game.gameover();
@@ -77,7 +83,7 @@ export function shoot_balls(){
                 balls[i].destroy();
             }
             else{
-                balls[i].move();
+                balls[i].move(dt);
                 for(let j=0; j<cannonBalls.length; j++){
                     if(balls[i].isCrashed(cannonBalls[j].getPosAndSize())){
                         balls[i].setDestroyed(true);
@@ -85,27 +91,25 @@ export function shoot_balls(){
                     }
                 }
             } 
-            balls[i].draw(ctx,canvas);
+            balls[i].draw(ctx, canvas);
         }
-        balls = balls.filter(function(data){
-            return !data.isDisappeared(canvas);
-        });
+        balls = balls.filter(data => !data.isDisappeared(canvas));
     }
-    function runCannon(){
-        cannon.decreaseDelay();
+    function runCannon(dt){
+        cannon.decreaseDelay(dt);
         cannon.draw(game.mouse_x, game.mouse_y);
     }
     let _spawnRate = 60;
     let _spawnCounter = 0;
     const _maxSpawnRate = 60;
     const _minSpawnRate = 20;
-    function spawnBall(){
-        if(++_spawnCounter >= _spawnRate){
+    function spawnBall(dt){
+        _spawnCounter += dt * 60;
+        if(_spawnCounter >= _spawnRate){
             _spawnCounter = 0;
             balls.push(new Ball(canvas));
-
-            if(_spawnRate>_minSpawnRate) _spawnRate *= 0.99;
-            else if(_spawnRate<_minSpawnRate) _spawnRate = _minSpawnRate;
+            if(_spawnRate > _minSpawnRate) _spawnRate *= 0.99;
+            else if(_spawnRate < _minSpawnRate) _spawnRate = _minSpawnRate;
         }
     }
 }

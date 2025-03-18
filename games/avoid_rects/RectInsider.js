@@ -27,21 +27,24 @@ export class RectInsider extends Rect{
         this.ctx.fillRect(0 - this.current_size/2, 0 - this.current_size/2, this.current_size, this.current_size);
         this.ctx.restore();
     }
-    move(){
-        this.x += this.dx;
-        if(this.x >= this.canvas.width - this.size*0.7 || this.x <= this.size*0.7)
+    move(dt){
+        this.x += this.dx * dt * 60;
+        if(this.x >= this.canvas.width - this.size * 0.7 || this.x <= this.size * 0.7)
             this.dx *= -1;
 
-        this.y += this.dy;
-        if(this.y >= this.canvas.height - this.size*0.7 || this.y <= this.size*0.7)
+        this.y += this.dy * dt * 60;
+        if(this.y >= this.canvas.height - this.size * 0.7 || this.y <= this.size * 0.7)
             this.dy *= -1;   
     }
-    spawn(){
+    spawn(dt){
         if(this.current_size > this.size){
-            this.current_size -= this.size/2;
-            if(this.opacity<100) this.opacity += 2.5;
+            this.current_size -= (this.size/2) * dt * 60;
+            if(this.opacity < 100) this.opacity += 2.5 * dt * 60;
             this.strokeStyle = 'hsla('+this.color+',100%,80%,'+this.opacity+'%)';
         }
+    }
+    spin(dt){
+        this.angle += this.spinAngle * dt * 60;
     }
 }
 export default RectInsider;

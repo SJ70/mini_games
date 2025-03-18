@@ -10,7 +10,7 @@ export function inside_out(){
     game.score.setFollowMouse(0.015, 0.015);
     game.clickToStart.setFollowMouse(0.05, 0.05);
     game.clickToStart.setPluePos(0,0.4);
-    //overriding
+    
     game.circle.resize = function(){
         game.circle.size = Math.round(Math.min(canvas.width, canvas.height)/2.5);
         game.circle.sizeTolerance = Math.ceil((canvas.diag-game.circle.size)/15);
@@ -46,22 +46,26 @@ export function inside_out(){
         _speed = 1;
     }
 
+    let lastTime = performance.now();
     run();
-    function run(){
+    function run(timestamp){
+        let dt = (timestamp - lastTime) / 1000;
+        lastTime = timestamp;
+
         game.resetCanvas();
 
-        game.drawEssential(canvas.width/2, canvas.height/2);
+        game.drawEssential(canvas.width/2, canvas.height/2, dt);
 
         if(game.isPlaying()){
-            player.rotate(_speed);
+            player.rotate(_speed * dt * 60);
             if(player.isOverAngle()){
                 game.score.addScore();
                 player.addAngle(-360);
-                if(_speed<MAX_SPEED) _speed += 0.05;
+                if(_speed < MAX_SPEED) _speed += 0.05 * dt * 60;
                 console.log(_speed);
             }
-            spikes.reverse_random(player.getAngle(), player.getAngle()+_speed);
-            if(spikes.isCrashed(player.getAngle(), player.getAngle()+_speed, player.reversed)){
+            spikes.reverse_random(player.getAngle(), player.getAngle() + _speed * dt * 60);
+            if(spikes.isCrashed(player.getAngle(), player.getAngle() + _speed * dt * 60, player.reversed)){
                 game.gameover();
                 // console.log('crashed');
             }
