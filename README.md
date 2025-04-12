@@ -3,8 +3,6 @@
 이미지, 외부 라이브러리 등을 사용하지 않은  
 Html Canvas + Javascript 미니게임 모음집
 
-권장 주사율 : 60fps  
-
 - [**실행**](https://sj70.github.io/mini_games)
 
 메인 페이지는 디자인이 구현되지 않은 상태이다.  
